@@ -2,17 +2,20 @@
 // Caches the app shell + toilet data for offline use.
 // Version bump triggers a cache refresh on next load.
 
-const CACHE_VERSION = 'hs-v1.1';
+const CACHE_VERSION = 'hs-v1.2'; // Bumped to 1.2 to force update!
 const SHELL_CACHE   = CACHE_VERSION + '-shell';
 const DATA_CACHE    = CACHE_VERSION + '-data';
 
 // App shell: everything needed to render without a network connection
+// ONLY put files here that 100% exist, or the whole install fails.
 const SHELL_ASSETS = [
     '/',
     '/index.html',
+    '/app.html',      // <-- Added your new app page!
     '/manifest.json',
-    '/icons/icon-192.png',
-    '/icons/icon-512.png',
+    '/logo.png'       // <-- Added your new logo
+    // '/icon-192.png', <-- Add these back later once you confirm their exact file path!
+    // '/icon-512.png'
 ];
 
 // ── Install: pre-cache the app shell ──
