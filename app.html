@@ -281,24 +281,7 @@
 
     .data-source { text-align: center; color: var(--text-dim); font-size: 11px; margin-top: 12px; }
 
-    /* ── SPLASH ── */
-    .splash {
-      position: fixed; inset: 0; z-index: 999;
-      background: var(--cream);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
-      transition: opacity 0.4s, visibility 0.4s;
-    }
-    .splash.gone { opacity: 0; visibility: hidden; }
-    .splash-logo { font-family: var(--font-d); font-size: 54px; line-height: 1; letter-spacing: 2px; }
-    .splash-logo .shit { color: var(--orange); }
-    .splash-tag { font-size: 13px; color: var(--text-mid); letter-spacing: 2.5px; text-transform: uppercase; }
-    .splash-bar { width: 48px; height: 4px; background: var(--card-hi); border-radius: 2px; overflow: hidden; margin-top: 8px; }
-    .splash-bar::after {
-      content: ''; display: block; width: 40%; height: 100%;
-      background: var(--orange); border-radius: 2px;
-      animation: load-bar 1.2s ease infinite;
-    }
-    @keyframes load-bar { 0% { transform:translateX(-100%); } 100% { transform:translateX(350%); } }
+
 
     /* ── TOAST ── */
     .toast {
@@ -331,12 +314,6 @@
   </style>
 </head>
 <body>
-
-<div class="splash" id="splash">
-  <div class="splash-logo">H💩LY<span class="shit">SHIT</span></div>
-  <div class="splash-tag">Relief for the long run</div>
-  <div class="splash-bar"></div>
-</div>
 
 <div id="map"></div>
 
@@ -445,8 +422,7 @@ function initMap() {
   S.ac.nearest = new google.maps.places.Autocomplete(el('inputNearest'));
   S.ac.origin  = new google.maps.places.Autocomplete(el('inputOrigin'));
   S.ac.dest    = new google.maps.places.Autocomplete(el('inputDest'));
-  setTimeout(()=>el('splash').classList.add('gone'), 900);
-  setTimeout(()=>locateMe(), 1000);
+  setTimeout(()=>locateMe(), 500);
 }
 
 const el = id => document.getElementById(id);
@@ -739,7 +715,7 @@ function mapStyle(){
 }
 </script>
 
-<!-- Replace YOUR_API_KEY before deploying -->
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByuYcj_qjTbjC2sRWx8VmlMLMxELQ3fB8&libraries=geometry&callback=initMap" async defer></script>
 </body>
 </html>
