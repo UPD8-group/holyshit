@@ -2,7 +2,7 @@
 // Caches the app shell + toilet data for offline use.
 // Version bump triggers a cache refresh on next load.
 
-const CACHE_VERSION = 'hs-v1.2'; // Bumped to 1.2 to force update!
+const CACHE_VERSION = 'hs-v1.3'; // Bumped to 1.2 to force update!
 const SHELL_CACHE   = CACHE_VERSION + '-shell';
 const DATA_CACHE    = CACHE_VERSION + '-data';
 
