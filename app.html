@@ -936,14 +936,15 @@ function submitReport() {
     btn.innerText = 'Sending…';
 
     const loc = currentLoo;
+    const gps = blueDotMarker ? blueDotMarker.getPosition() : null;
     const payload = new URLSearchParams({
         'form-name':     'holyshit-report',
         'bot-field':     '',
         'status':        selectedReportOption.emoji + ' ' + selectedReportOption.label,
-        'location_name': loc ? (loc.n || 'Unknown') : 'Unknown',
+        'location_name': loc ? (loc.n || loc.a || 'Unnamed facility') : 'No facility selected',
         'location_id':   loc ? (loc.id || '') : '',
-        'latitude':      loc ? loc.lat : '',
-        'longitude':     loc ? loc.lon : '',
+        'latitude':      loc ? loc.lat : (gps ? gps.lat().toFixed(6) : ''),
+        'longitude':     loc ? loc.lon : (gps ? gps.lng().toFixed(6) : ''),
         'reported_at':   new Date().toISOString(),
     });
 
