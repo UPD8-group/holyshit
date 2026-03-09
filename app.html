@@ -514,6 +514,7 @@ if ('serviceWorker' in navigator) window.addEventListener('load', () => navigato
 
 // STATE
 let map, markers = [], allLoos = [], currentLoo = null;
+let userHasPanned = false;
 let panorama = null, blueDotMarker = null, blueDotAccuracy = null, blueWatchId = null;
 let isRunning = false, runWatchId = null, runPolyline = null, runPath = [], runStartTime = null, totalDistKm = 0, lastPos = null;
 let plannerActive = false, pickingStep = null;
@@ -565,6 +566,7 @@ async function initMap() {
     goldenIcon = makePinIcon(pinGold, 34, 42);
     map.addListener('click', handleMapClick);
     map.addListener('idle', renderVisibleMarkers);
+    map.addListener('dragstart', () => { userHasPanned = true; });
     loadData(); startBlueDot(); checkIosInstall();
 }
 
@@ -622,11 +624,11 @@ function startBlueDot() {
                 document.getElementById('locate-fab').classList.remove('waiting');
                 blueDotAccuracy = new google.maps.Circle({ map, center: {lat,lng}, radius: accuracy, fillColor: '#e8601a', fillOpacity: 0.08, strokeColor: '#e8601a', strokeOpacity: 0.25, strokeWeight: 1, clickable: false, zIndex: 1 });
                 blueDotMarker   = new google.maps.Marker({ position: {lat,lng}, map, icon: { path: google.maps.SymbolPath.CIRCLE, fillColor: '#e8601a', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 3, scale: 9 }, zIndex: 10, clickable: false });
-                map.panTo({lat,lng});
+                if (!userHasPanned) map.panTo({lat,lng});
             } else { blueDotMarker.setPosition({lat,lng}); blueDotAccuracy.setCenter({lat,lng}); blueDotAccuracy.setRadius(accuracy); }
         },
         err => console.warn('GPS:', err.message),
-        { enableHighAccuracy: true, maximumAge: 5000, timeout: 15000 }
+        { enableHighAccuracy: true, maximumAge: 30000, timeout: 20000 }
     );
 }
 function centreOnUser() { if (blueDotMarker) map.panTo(blueDotMarker.getPosition()); }
