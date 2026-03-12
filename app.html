@@ -730,10 +730,11 @@ function handleMapClick(e) { if (pickingStep) handlePickTap(e.latLng); else { cl
 function openDirections() {
     if (!currentLoo) return;
     if (!blueDotMarker) { showToast('📍 Waiting for GPS fix — try again shortly.'); return; }
-    closeSheet();
-    const origin = blueDotMarker.getPosition();
-    const dest   = { lat: currentLoo.lat, lng: currentLoo.lon };
+    // Capture everything BEFORE closeSheet() nulls currentLoo
     const loo    = currentLoo;
+    const origin = blueDotMarker.getPosition();
+    const dest   = { lat: loo.lat, lng: loo.lon };
+    closeSheet();
     if (navPolyline) { navPolyline.setMap(null); navPolyline = null; }
     document.getElementById('nav-bar-name').innerText = loo.n;
     document.getElementById('nav-bar-dist').innerHTML = '<span>Calculating…</span>';
