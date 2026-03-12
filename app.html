@@ -134,6 +134,7 @@
     .iw-btn-label { font-family: var(--font-d); font-size: 0.7rem; letter-spacing: 0.5px; }
     .iw-btn-primary  { background: var(--orange); color: #fff; box-shadow: 0 3px 0 var(--orange-dk); }
     .iw-btn-secondary { background: var(--card); color: var(--text-mid); border: 1.5px solid var(--border); }
+    .iw-btn-street { background: var(--water-lt); color: var(--water); border: 1.5px solid rgba(26,143,217,0.25); }
 
     /* PLANNER BAR */
     #planner-bar {
@@ -649,7 +650,7 @@ function openSheet(loo) {
             <button class="iw-btn iw-btn-secondary" onclick="closeSheet(); openReport()">
                 <span class="iw-btn-icon">🚨</span><span class="iw-btn-label">REPORT</span>
             </button>
-            <button class="iw-btn iw-btn-secondary" onclick="openStreetView()">
+            <button class="iw-btn iw-btn-street" onclick="openStreetView()">
                 <span class="iw-btn-icon">👁</span><span class="iw-btn-label">STREET</span>
             </button>
         </div>
