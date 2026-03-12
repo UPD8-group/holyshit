@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -97,10 +97,7 @@
     .nav-tab.running .nav-icon { background: var(--green-lt); opacity: 1; animation: pulse-green 1.5s ease-in-out infinite; }
     .nav-tab.running .nav-label { color: var(--green); }
     @keyframes pulse-green { 0%,100% { box-shadow: 0 0 0 0 rgba(42,157,78,0.4); } 50% { box-shadow: 0 0 0 8px rgba(42,157,78,0); } }
-    .nav-tab.active .nav-icon-nav { background: var(--water-lt) !important; }
-    .nav-tab.active .nav-label:has(~ .nav-icon-nav) { color: var(--water) !important; }
-    #tab-nav.active .nav-label { color: var(--water); }
-    #tab-nav.active .nav-icon { background: var(--water-lt); }
+
     .nav-tab-poo { flex: 1.2; }
     .nav-icon-poo { font-size: 1.7rem !important; width: 38px !important; height: 38px !important; margin-top: -6px; }
     #tab-near .nav-label { font-size: 0.62rem; }
@@ -476,7 +473,7 @@
 </div>
 
 <nav id="bottom-nav">
-    <button class="nav-tab" id="tab-nav"  onclick="navTap('nav')"><div class="nav-icon nav-icon-nav">🧭</div><div class="nav-label">Navigate</div></button>
+    <button class="nav-tab" id="tab-map"  onclick="navTap('map')"><div class="nav-icon" id="map-mode-icon">🗺️</div><div class="nav-label" id="map-mode-label">Map</div></button>
     <button class="nav-tab nav-tab-poo" id="tab-near" onclick="navTap('near')"><div class="nav-icon nav-icon-poo">💩</div><div class="nav-label">Near Me</div></button>
     <button class="nav-tab" id="tab-more" onclick="navTap('more')"><div class="nav-icon">☰</div><div class="nav-label">More</div></button>
 </nav>
@@ -535,16 +532,30 @@ const pinPoo  = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg x
 const pinGold = 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="34" height="42" viewBox="0 0 34 42"><defs><filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-opacity="0.30"/></filter></defs><path d="M17 2C9.3 2 3 8.3 3 16c0 9.8 14 24 14 24S31 25.8 31 16C31 8.3 24.7 2 17 2Z" fill="#FFD700" filter="url(#s)"/><circle cx="17" cy="16" r="11" fill="#3d1600"/><text x="17" y="21" font-size="14" text-anchor="middle" font-family="sans-serif">⭐</text></svg>');
 function makePinIcon(url, w, h) { return { url, scaledSize: new google.maps.Size(w, h), anchor: new google.maps.Point(w/2, h) }; }
 
+const MAP_MODES = [
+    { type: 'roadmap',  styles: true,  icon: '🗺️',  label: 'Map',       toast: '🗺️ Standard map' },
+    { type: 'satellite',styles: false, icon: '🛰️',  label: 'Satellite', toast: '🛰️ Satellite view' },
+    { type: 'hybrid',   styles: false, icon: '🌏',  label: 'Hybrid',    toast: '🌏 Hybrid view' },
+];
+let mapModeIdx = 0;
+
 function navTap(tab) {
-    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-' + tab).classList.add('active');
+    if (tab !== 'map') {
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+    }
     if (tab === 'near') { findNearest(); }
-    if (tab === 'nav')  { openNavMode(); }
     if (tab === 'more') { openMore(); }
+    if (tab === 'map')  { cycleMapMode(); }
 }
-function openNavMode() {
-    if (!currentLoo) { showToast('💩 Tap a toilet first, then navigate!'); return; }
-    openDirections();
+function cycleMapMode() {
+    mapModeIdx = (mapModeIdx + 1) % MAP_MODES.length;
+    const m = MAP_MODES[mapModeIdx];
+    map.setMapTypeId(m.type);
+    map.setOptions({ styles: m.styles ? warmStyle() : [] });
+    document.getElementById('map-mode-icon').innerText  = m.icon;
+    document.getElementById('map-mode-label').innerText = m.label;
+    showToast(m.toast);
 }
 function closeAll() { closeSheet(); closeReport(); cancelNavigation(); document.getElementById('route-summary').classList.remove('open'); document.getElementById('more-sheet').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
 function openMore()  { document.getElementById('more-sheet').classList.add('open');    document.getElementById('overlay').classList.add('show'); }
