@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -359,6 +359,40 @@
     #ios-nudge p { margin: 0 0 6px; font-family: var(--font-b); font-size: 0.83rem; color: var(--text-mid); line-height: 1.4; }
     #ios-nudge strong { color: var(--text); }
     #ios-nudge-close { background: none; border: 1.5px solid var(--border); color: var(--text-mid); padding: 6px 20px; border-radius: 8px; cursor: pointer; font-family: var(--font-b); font-size: 0.8rem; margin-top: 8px; }
+
+    /* TRAVEL MODE MODAL (in-app) */
+    #app-travel-overlay {
+        position: fixed; inset: 0; z-index: 4000;
+        background: rgba(26,16,8,0.45);
+        backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+        display: flex; align-items: flex-end;
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.3s;
+    }
+    #app-travel-overlay.show { opacity: 1; pointer-events: auto; }
+    #app-travel-modal {
+        width: 100%; background: var(--cream);
+        border-radius: 24px 24px 0 0;
+        padding: 0 0 calc(var(--nav-h) + 4px);
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 -8px 40px rgba(100,80,60,0.2);
+        border-top: 1.5px solid var(--border);
+    }
+    #app-travel-overlay.show #app-travel-modal { transform: translateY(0); }
+    .atravel-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 14px auto 0; }
+    .atravel-title { font-family: var(--font-d); font-size: 1.5rem; color: var(--text); text-align: center; padding: 16px 24px 4px; letter-spacing: 0.5px; }
+    .atravel-sub { text-align: center; font-size: 0.78rem; color: var(--text-mid); padding: 0 24px 20px; line-height: 1.5; }
+    .atravel-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px 18px; }
+    .atravel-option { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 8px 16px; border-radius: 14px; border: 2px solid var(--border); background: var(--card); cursor: pointer; transition: border-color 0.15s, background 0.15s, transform 0.1s; -webkit-tap-highlight-color: transparent; }
+    .atravel-option:active { transform: scale(0.95); }
+    .atravel-option.selected { border-color: var(--orange); background: var(--orange-lt); }
+    .atravel-emoji { font-size: 2.2rem; line-height: 1; }
+    .atravel-name { font-family: var(--font-d); font-size: 0.85rem; color: var(--text); letter-spacing: 0.5px; text-align: center; line-height: 1.2; }
+    .atravel-option.selected .atravel-name { color: var(--orange); }
+    #atravel-save { display: block; margin: 0 16px 4px; width: calc(100% - 32px); background: var(--orange); color: #fff; border: none; padding: 14px; border-radius: 10px; font-family: var(--font-d); font-size: 1.1rem; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 0 var(--orange-dk); transition: transform 0.1s, opacity 0.2s; opacity: 0.35; pointer-events: none; }
+    #atravel-save.ready { opacity: 1; pointer-events: auto; }
+    #atravel-save.ready:active { transform: scale(0.98); }
     </style>
 </head>
 <body>
@@ -467,6 +501,14 @@
 
 <div id="more-sheet">
     <div class="more-title">More Features</div>
+    <div class="more-item" id="more-travel-item" onclick="openTravelModal()">
+        <div class="more-icon orange">🚗</div>
+        <div class="more-text">
+            <div class="more-name">Travel Mode</div>
+            <div class="more-desc" id="more-travel-desc">Loading…</div>
+        </div>
+        <span class="more-arrow">›</span>
+    </div>
     <div class="more-item disabled"><div class="more-icon blue">🏆</div><div class="more-text"><div class="more-name">Leaderboard</div><div class="more-desc">Compare runs with other users</div></div><span class="soon-badge">SOON</span></div>
     <div class="more-item disabled"><div class="more-icon grey">⚙️</div><div class="more-text"><div class="more-name">Settings</div><div class="more-desc">Units, display &amp; preferences</div></div><span class="soon-badge">SOON</span></div>
     <div class="more-item disabled"><div class="more-icon grey">📤</div><div class="more-text"><div class="more-name">Share Run</div><div class="more-desc">Post your route to social media</div></div><span class="soon-badge">SOON</span></div>
@@ -514,6 +556,10 @@ function dismissIosNudge() { document.getElementById('ios-nudge').classList.remo
 if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(()=>{}));
 
 // STATE
+// Read travel mode saved from landing page (default: WALKING)
+let TRAVEL_MODE = localStorage.getItem('hs_travel_mode') || 'WALKING';
+window._travelMode = TRAVEL_MODE;
+
 let map, markers = [], allLoos = [], currentLoo = null;
 let userHasPanned = false;
 let panorama = null, blueDotMarker = null, blueDotAccuracy = null, blueWatchId = null;
@@ -581,7 +627,7 @@ async function initMap() {
     map.addListener('click', handleMapClick);
     map.addListener('idle', renderVisibleMarkers);
     map.addListener('dragstart', () => { userHasPanned = true; });
-    loadData(); startBlueDot(); checkIosInstall();
+    loadData(); startBlueDot(); checkIosInstall(); updateTravelModeLabel();
 }
 
 function warmStyle() {
@@ -693,7 +739,7 @@ function openDirections() {
     document.getElementById('nav-bar-dist').innerHTML = '<span>Calculating…</span>';
     document.getElementById('nav-bar').classList.add('active');
     directionsService.route(
-        { origin, destination: dest, travelMode: google.maps.TravelMode.WALKING },
+        { origin, destination: dest, travelMode: google.maps.TravelMode[window._travelMode || TRAVEL_MODE] },
         (result, status) => {
             if (status !== 'OK') { document.getElementById('nav-bar-dist').innerHTML = 'Could not find route'; return; }
             const leg = result.routes[0].legs[0];
@@ -957,6 +1003,55 @@ function submitReport() {
         });
 }
 
+// ── IN-APP TRAVEL MODE ──────────────────────────────────────────
+const TRAVEL_LABELS = { DRIVING: '🚗 Drive', WALKING: '🏃 Walk / Run', BICYCLING: '🚴 Cycle' };
+let appTravelSelected = null;
+
+function openTravelModal() {
+    closeMore();
+    // Pre-select current mode
+    const current = localStorage.getItem('hs_travel_mode') || 'WALKING';
+    appTravelSelected = current;
+    document.querySelectorAll('.atravel-option').forEach(o => o.classList.remove('selected'));
+    const map = { DRIVING: 'atravel-driving', WALKING: 'atravel-walking', BICYCLING: 'atravel-bicycling' };
+    document.getElementById(map[current]).classList.add('selected');
+    document.getElementById('atravel-save').classList.add('ready');
+    document.getElementById('app-travel-overlay').classList.add('show');
+}
+
+function selectAppTravel(mode, el) {
+    appTravelSelected = mode;
+    document.querySelectorAll('.atravel-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('atravel-save').classList.add('ready');
+}
+
+function saveAppTravel() {
+    if (!appTravelSelected) return;
+    localStorage.setItem('hs_travel_mode', appTravelSelected);
+    // Update the const at runtime via a mutable var
+    window._travelMode = appTravelSelected;
+    document.getElementById('app-travel-overlay').classList.remove('show');
+    updateTravelModeLabel();
+    showToast(TRAVEL_LABELS[appTravelSelected] + ' saved');
+}
+
+function appTravelOverlayTap(e) {
+    if (e.target === document.getElementById('app-travel-overlay')) {
+        document.getElementById('app-travel-overlay').classList.remove('show');
+    }
+}
+
+function updateTravelModeLabel() {
+    const mode = localStorage.getItem('hs_travel_mode') || 'WALKING';
+    const el = document.getElementById('more-travel-desc');
+    const icon = document.querySelector('#more-travel-item .more-icon');
+    const labels = { DRIVING: '🚗', WALKING: '🏃', BICYCLING: '🚴' };
+    const names  = { DRIVING: 'Currently set to Drive', WALKING: 'Currently set to Walk / Run', BICYCLING: 'Currently set to Cycle' };
+    if (el) el.innerText = names[mode] || names.WALKING;
+    if (icon) icon.innerText = labels[mode] || '🏃';
+}
+
 window.gm_authFailure = function() {
     const div = document.createElement('div');
     div.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9999;background:#faf8f3;border:2px solid #e8601a;border-radius:14px;padding:24px 20px;max-width:320px;font-family:sans-serif;font-size:14px;line-height:1.5;text-align:center;box-shadow:0 8px 30px rgba(100,80,60,0.2)';
@@ -966,5 +1061,20 @@ window.gm_authFailure = function() {
 </script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByuYcj_qjTbjC2sRWx8VmlMLMxELQ3fB8&libraries=geometry&callback=initMap" async defer></script>
+
+<!-- In-app Travel Mode Modal -->
+<div id="app-travel-overlay" onclick="appTravelOverlayTap(event)">
+    <div id="app-travel-modal">
+        <div class="atravel-handle"></div>
+        <div class="atravel-title">TRAVEL MODE</div>
+        <div class="atravel-sub">How do you usually get around? Used for directions.</div>
+        <div class="atravel-options">
+            <div class="atravel-option" id="atravel-driving"   onclick="selectAppTravel('DRIVING', this)"><span class="atravel-emoji">🚗</span><span class="atravel-name">DRIVE</span></div>
+            <div class="atravel-option" id="atravel-walking"   onclick="selectAppTravel('WALKING', this)"><span class="atravel-emoji">🏃</span><span class="atravel-name">WALK / RUN</span></div>
+            <div class="atravel-option" id="atravel-bicycling" onclick="selectAppTravel('BICYCLING', this)"><span class="atravel-emoji">🚴</span><span class="atravel-name">CYCLE</span></div>
+        </div>
+        <button id="atravel-save" onclick="saveAppTravel()">SAVE</button>
+    </div>
+</div>
 </body>
 </html>
