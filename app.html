@@ -186,21 +186,21 @@
         right: 16px;
         width: 52px; height: 52px;
         border-radius: 50%;
-        background: var(--orange);
+        background: var(--water);
         border: none;
-        box-shadow: 0 4px 14px rgba(232,96,26,0.45);
+        box-shadow: 0 4px 14px rgba(26,143,217,0.45);
         cursor: pointer;
         z-index: 2000;
         display: flex; align-items: center; justify-content: center;
         transition: transform 0.15s, box-shadow 0.15s;
     }
-    #locate-fab:active { transform: scale(0.92); box-shadow: 0 2px 8px rgba(232,96,26,0.35); }
+    #locate-fab:active { transform: scale(0.92); box-shadow: 0 2px 8px rgba(26,143,217,0.35); }
     #locate-fab svg { width: 24px; height: 24px; fill: white; }
     #locate-fab.waiting { animation: fab-pulse 1.4s ease-in-out infinite; }
     @keyframes fab-pulse {
-        0%   { box-shadow: 0 0 0 0 rgba(232,96,26,0.55); }
-        60%  { box-shadow: 0 0 0 14px rgba(232,96,26,0); }
-        100% { box-shadow: 0 0 0 0 rgba(232,96,26,0); }
+        0%   { box-shadow: 0 0 0 0 rgba(26,143,217,0.55); }
+        60%  { box-shadow: 0 0 0 14px rgba(26,143,217,0); }
+        100% { box-shadow: 0 0 0 0 rgba(26,143,217,0); }
     }
     #btn-use-current { background: var(--orange); border: none; color: white; font-family: var(--font-b); font-weight: 700; padding: 5px 11px; border-radius: 12px; margin-left: 6px; cursor: pointer; font-size: 0.75rem; }
     .spinner { width: 14px; height: 14px; border: 2px solid rgba(250,248,243,0.3); border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -613,8 +613,8 @@ function startBlueDot() {
             const { latitude: lat, longitude: lng, accuracy } = pos.coords;
             if (!blueDotMarker) {
                 document.getElementById('locate-fab').classList.remove('waiting');
-                blueDotAccuracy = new google.maps.Circle({ map, center: {lat,lng}, radius: accuracy, fillColor: '#e8601a', fillOpacity: 0.08, strokeColor: '#e8601a', strokeOpacity: 0.25, strokeWeight: 1, clickable: false, zIndex: 1 });
-                blueDotMarker   = new google.maps.Marker({ position: {lat,lng}, map, icon: { path: google.maps.SymbolPath.CIRCLE, fillColor: '#e8601a', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 3, scale: 9 }, zIndex: 10, clickable: false });
+                blueDotAccuracy = new google.maps.Circle({ map, center: {lat,lng}, radius: accuracy, fillColor: '#1a8fd9', fillOpacity: 0.12, strokeColor: '#1a8fd9', strokeOpacity: 0.30, strokeWeight: 1, clickable: false, zIndex: 1 });
+                blueDotMarker   = new google.maps.Marker({ position: {lat,lng}, map, icon: { path: google.maps.SymbolPath.CIRCLE, fillColor: '#1a8fd9', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 3, scale: 9 }, zIndex: 10, clickable: false });
                 if (!userHasPanned) map.panTo({lat,lng});
             } else { blueDotMarker.setPosition({lat,lng}); blueDotAccuracy.setCenter({lat,lng}); blueDotAccuracy.setRadius(accuracy); }
         },
