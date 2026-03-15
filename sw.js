@@ -1,87 +1,76 @@
-// HolyShit.app — Service Worker
-// Caches the app shell + toilet data for offline use.
-// Version bump triggers a cache refresh on next load.
+const CACHE_VERSION = 'hs-v1.6';
+const SHELL_CACHE = `${CACHE_VERSION}-shell`;
+const DATA_CACHE = `${CACHE_VERSION}-data`;
 
-const CACHE_VERSION = 'hs-v1.3'; // Bumped to 1.2 to force update!
-const SHELL_CACHE   = CACHE_VERSION + '-shell';
-const DATA_CACHE    = CACHE_VERSION + '-data';
-
-// App shell: everything needed to render without a network connection
-// ONLY put files here that 100% exist, or the whole install fails.
 const SHELL_ASSETS = [
     '/',
     '/index.html',
-    '/app.html',      // <-- Added your new app page!
+    '/app.html',
     '/manifest.json',
-    '/logo.png'       // <-- Added your new logo
-    // '/icon-192.png', <-- Add these back later once you confirm their exact file path!
-    // '/icon-512.png'
+    '/logo.png',
+    '/favicon-16.png',
+    '/favicon-32.png',
+    '/favicon-48.png'
 ];
 
-// ── Install: pre-cache the app shell ──
 self.addEventListener('install', event => {
     event.waitUntil(
-        caches.open(SHELL_CACHE).then(cache => {
-            console.log('[SW] Pre-caching app shell');
-            return cache.addAll(SHELL_ASSETS);
-        })
+        caches.open(SHELL_CACHE).then(cache => cache.addAll(SHELL_ASSETS))
     );
-    self.skipWaiting(); // Activate immediately
+    self.skipWaiting();
 });
 
-// ── Activate: delete old caches ──
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys =>
             Promise.all(
                 keys
                     .filter(key => key !== SHELL_CACHE && key !== DATA_CACHE)
-                    .map(key => {
-                        console.log('[SW] Deleting old cache:', key);
-                        return caches.delete(key);
-                    })
+                    .map(key => caches.delete(key))
             )
         )
     );
-    self.clients.claim(); // Take control of all pages immediately
+    self.clients.claim();
 });
 
-// ── Fetch: stale-while-revalidate for data, cache-first for shell ──
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
 
-    // Never intercept Google Maps API calls — they need to be live
-    if (url.hostname.includes('googleapis.com') ||
-        url.hostname.includes('gstatic.com')    ||
-        url.hostname.includes('maps.google.com')) {
+    if (event.request.method !== 'GET') return;
+
+    if (
+        url.hostname.includes('googleapis.com') ||
+        url.hostname.includes('gstatic.com') ||
+        url.hostname.includes('maps.google.com')
+    ) {
         return;
     }
 
-    // Toilet data: stale-while-revalidate
-    // Serve cached version instantly, update in background
-    if (url.pathname.includes('toilets-au.json') ||
-        url.pathname.includes('holyshit_master')) {
+    if (url.pathname.includes('/toilets-au.json') || url.pathname.includes('holyshit_master')) {
         event.respondWith(
             caches.open(DATA_CACHE).then(async cache => {
-                const cached = await cache.match(event.request);
-                const fetchPromise = fetch(event.request).then(response => {
-                    if (response.ok) cache.put(event.request, response.clone());
-                    return response;
-                }).catch(() => null);
-
-                return cached || fetchPromise;
+                try {
+                    const fresh = await fetch(event.request, { cache: 'no-store' });
+                    if (fresh.ok) {
+                        cache.put(event.request, fresh.clone());
+                    }
+                    return fresh;
+                } catch (err) {
+                    const cached = await cache.match(event.request);
+                    if (cached) return cached;
+                    throw err;
+                }
             })
         );
         return;
     }
 
-    // App shell: cache-first
     event.respondWith(
         caches.match(event.request).then(cached => {
             if (cached) return cached;
+
             return fetch(event.request).then(response => {
-                // Cache successful GET responses for shell assets
-                if (response.ok && event.request.method === 'GET') {
+                if (response.ok) {
                     caches.open(SHELL_CACHE).then(cache => {
                         cache.put(event.request, response.clone());
                     });
