@@ -56,14 +56,12 @@
         -webkit-font-smoothing: antialiased;
     }
 
-    /* MAP */
     #map { position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%; z-index: 0; background: var(--card); }
     .gm-bundled-control { bottom: calc(var(--nav-h) + 12px) !important; }
     .gmnoprint.gm-bundled-control-on-bottom { bottom: calc(var(--nav-h) + 12px) !important; }
     .gm-fullscreen-control { bottom: calc(var(--nav-h) + 12px) !important; }
     .gm-svpc { bottom: calc(var(--nav-h) + 12px) !important; }
 
-    /* BOTTOM NAV */
     #bottom-nav {
         position: fixed; bottom: 0; left: 0; right: 0;
         height: var(--nav-h); z-index: 2500;
@@ -102,7 +100,6 @@
     .nav-icon-poo { font-size: 1.7rem !important; width: 38px !important; height: 38px !important; margin-top: -6px; }
     #tab-near .nav-label { font-size: 0.62rem; }
 
-    /* RUN HUD */
     #run-hud {
         position: fixed; top: 0; left: 0; right: 0; z-index: 1500;
         display: flex; transform: translateY(-100%);
@@ -121,7 +118,6 @@
     .hud-value.hl { color: var(--orange); }
     .hud-label { font-family: var(--font-b); font-size: 0.55rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-top: 4px; }
 
-    /* INFOWINDOW */
     .gm-style .gm-style-iw-c { padding: 0 !important; border-radius: 20px !important; box-shadow: var(--shadow) !important; max-width: 92vw !important; width: 300px !important; }
     .gm-style .gm-style-iw-d { overflow: hidden !important; padding: 0 !important; }
     .gm-style .gm-style-iw-t::after { background: var(--cream) !important; }
@@ -140,7 +136,6 @@
     .iw-btn-secondary { background: var(--card); color: var(--text-mid); border: 1.5px solid var(--border); }
     .iw-btn-street { background: var(--water-lt); color: var(--water); border: 1.5px solid rgba(26,143,217,0.25); }
 
-    /* PLANNER BAR */
     #planner-bar {
         position: fixed; top: 0; left: 0; right: 0; z-index: 1400;
         display: flex; flex-direction: column;
@@ -158,11 +153,11 @@
     .planner-step:last-of-type { border-right: none; }
     .step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border-hi); display: flex; align-items: center; justify-content: center; font-family: var(--font-b); font-size: 0.72rem; font-weight: 700; color: var(--text-dim); flex-shrink: 0; transition: all 0.2s; }
     .planner-step.current .step-dot { border-color: var(--orange); color: var(--orange); background: var(--orange-lt); }
-    .planner-step.done    .step-dot { border-color: var(--green);  color: var(--green);  background: var(--green-lt); }
+    .planner-step.done .step-dot { border-color: var(--green); color: var(--green); background: var(--green-lt); }
     .step-label { font-family: var(--font-b); font-size: 0.58rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 2px; }
     .step-value { font-family: var(--font-d); font-size: 0.95rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: 0.3px; }
     .planner-step.current .step-value { color: var(--orange); }
-    .planner-step.done    .step-value { color: var(--green); font-size: 0.85rem; }
+    .planner-step.done .step-value { color: var(--green); font-size: 0.85rem; }
     #planner-close { width: 48px; display: flex; align-items: center; justify-content: center; color: var(--text-mid); font-size: 1.1rem; cursor: pointer; border-left: 1px solid var(--border); }
     .planner-options { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: var(--card); border-top: 1px solid var(--border); }
     .mode-toggles { display: flex; gap: 6px; }
@@ -170,7 +165,6 @@
     .mode-btn.active { background: var(--orange); color: white; border-color: var(--orange); box-shadow: 0 2px 8px var(--orange-glow); }
     .radius-select select { padding: 6px 10px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--cream); font-family: var(--font-b); font-size: 0.75rem; font-weight: 600; color: var(--text); outline: none; cursor: pointer; }
 
-    /* TOASTS */
     .floating-toast {
         position: fixed; top: calc(env(safe-area-inset-top, 0px) + 120px);
         left: 50%; transform: translateX(-50%) translateY(-8px);
@@ -183,7 +177,6 @@
     }
     .floating-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
 
-    /* LOCATE FAB */
     #locate-fab {
         position: fixed;
         bottom: calc(var(--nav-h) + 16px);
@@ -202,15 +195,14 @@
     #locate-fab svg { width: 24px; height: 24px; fill: white; }
     #locate-fab.waiting { animation: fab-pulse 1.4s ease-in-out infinite; }
     @keyframes fab-pulse {
-        0%   { box-shadow: 0 0 0 0 rgba(26,143,217,0.55); }
-        60%  { box-shadow: 0 0 0 14px rgba(26,143,217,0); }
+        0% { box-shadow: 0 0 0 0 rgba(26,143,217,0.55); }
+        60% { box-shadow: 0 0 0 14px rgba(26,143,217,0); }
         100% { box-shadow: 0 0 0 0 rgba(26,143,217,0); }
     }
     #btn-use-current { background: var(--orange); border: none; color: white; font-family: var(--font-b); font-weight: 700; padding: 5px 11px; border-radius: 12px; margin-left: 6px; cursor: pointer; font-size: 0.75rem; }
     .spinner { width: 14px; height: 14px; border: 2px solid rgba(250,248,243,0.3); border-top-color: var(--orange); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ROUTE SUMMARY */
     #route-summary {
         position: fixed; bottom: calc(var(--nav-h) - 4px); left: 0; right: 0;
         z-index: 1900; background: var(--cream); color: var(--text);
@@ -227,7 +219,9 @@
     .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
     .stat-card { background: var(--card); border-radius: 10px; padding: 12px 6px; text-align: center; border: 1px solid var(--border); }
     .stat-value { font-family: var(--font-d); font-size: 1.5rem; line-height: 1; letter-spacing: 0.3px; }
-    .stat-value.orange { color: var(--orange); } .stat-value.green { color: var(--green); } .stat-value.cyan { color: var(--cyan); }
+    .stat-value.orange { color: var(--orange); }
+    .stat-value.green { color: var(--green); }
+    .stat-value.cyan { color: var(--cyan); }
     .stat-label { font-family: var(--font-b); font-size: 0.58rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); margin-top: 3px; }
     #route-facilities { max-height: 35vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
     .route-facility-item { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
@@ -240,7 +234,6 @@
     .rf-dist { font-family: var(--font-d); font-size: 0.9rem; color: var(--text-mid); flex-shrink: 0; }
     .btn-go { width: 100%; padding: 14px; border-radius: 10px; border: none; background: var(--orange); color: white; font-family: var(--font-d); font-size: 1.1rem; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 0 var(--orange-dk); margin-top: 14px; }
 
-    /* MORE SHEET */
     #more-sheet {
         position: fixed; bottom: 0; left: 0; right: 0; z-index: 3500;
         background: var(--cream); color: var(--text);
@@ -259,16 +252,15 @@
     .more-item.disabled { opacity: 0.4; pointer-events: none; }
     .more-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; border: 1.5px solid var(--border); }
     .more-icon.orange { background: var(--orange-lt); border-color: rgba(232,96,26,0.2); }
-    .more-icon.blue   { background: var(--water-lt);  border-color: rgba(26,143,217,0.2); }
-    .more-icon.green  { background: var(--green-lt);  border-color: rgba(42,157,78,0.2); }
-    .more-icon.grey   { background: var(--card); }
+    .more-icon.blue { background: var(--water-lt); border-color: rgba(26,143,217,0.2); }
+    .more-icon.green { background: var(--green-lt); border-color: rgba(42,157,78,0.2); }
+    .more-icon.grey { background: var(--card); }
     .more-text { flex: 1; }
     .more-name { font-family: var(--font-b); font-weight: 600; font-size: 0.95rem; color: var(--text); }
     .more-desc { font-family: var(--font-b); font-size: 0.76rem; color: var(--text-mid); margin-top: 1px; }
     .more-arrow { color: var(--border-hi); font-size: 1.1rem; }
     .soon-badge { background: var(--card); color: var(--text-dim); font-family: var(--font-b); font-size: 0.6rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; border: 1px solid var(--border); letter-spacing: 0.5px; }
 
-    /* REPORT SHEET */
     #report-sheet {
         position: fixed; bottom: 0; left: 0; right: 0; z-index: 3500;
         background: var(--cream); border-radius: 20px 20px 0 0;
@@ -298,7 +290,6 @@
     #report-thanks .thanks-title { font-family: var(--font-d); font-size: 1.5rem; color: var(--text); margin-bottom: 4px; letter-spacing: 0.5px; }
     #report-thanks .thanks-sub { font-family: var(--font-b); font-size: 0.83rem; color: var(--text-mid); }
 
-    /* IN-APP NAV BAR */
     #nav-bar {
         position: fixed; bottom: var(--nav-h); left: 0; right: 0;
         z-index: 2000; background: var(--cream);
@@ -319,11 +310,9 @@
     #nav-bar-cancel { background: var(--card); border: 1.5px solid var(--border); color: var(--text-mid); padding: 8px 16px; border-radius: 8px; font-family: var(--font-b); font-weight: 700; font-size: 0.85rem; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
     #nav-bar-cancel:active { background: var(--card-hi); }
 
-    /* OVERLAY */
     #overlay { position: fixed; inset: 0; z-index: 1800; background: rgba(26,16,8,0.35); opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     #overlay.show { opacity: 1; pointer-events: auto; }
 
-    /* STREET VIEW */
     #sv-modal { position: fixed; inset: 0; z-index: 9000; background: #000; display: none; flex-direction: column; }
     #sv-modal.open { display: flex; }
     #sv-panorama { flex: 1; width: 100%; }
@@ -331,9 +320,9 @@
     #sv-close { pointer-events: auto; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
     #sv-title { flex: 1; color: white; font-family: var(--font-d); font-size: 1.1rem; letter-spacing: 0.5px; }
     .sv-nav { position: absolute; top: 50%; transform: translateY(-50%); z-index: 9100; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 1.8rem; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-    #sv-prev { left: 14px; } #sv-next { right: 14px; }
+    #sv-prev { left: 14px; }
+    #sv-next { right: 14px; }
 
-    /* INSTALL BANNERS */
     #install-banner {
         position: fixed; bottom: calc(var(--nav-h) + 12px); left: 12px; right: 12px;
         z-index: 3000; display: flex; align-items: center; gap: 12px;
@@ -360,7 +349,6 @@
     #ios-nudge strong { color: var(--text); }
     #ios-nudge-close { background: none; border: 1.5px solid var(--border); color: var(--text-mid); padding: 6px 20px; border-radius: 8px; cursor: pointer; font-family: var(--font-b); font-size: 0.8rem; margin-top: 8px; }
 
-    /* TRAVEL MODE MODAL (in-app) */
     #app-travel-overlay {
         position: fixed; inset: 0; z-index: 4000;
         background: rgba(26,16,8,0.45);
@@ -393,14 +381,14 @@
     #atravel-save { display: block; margin: 0 16px 4px; width: calc(100% - 32px); background: var(--orange); color: #fff; border: none; padding: 14px; border-radius: 10px; font-family: var(--font-d); font-size: 1.1rem; letter-spacing: 0.5px; cursor: pointer; box-shadow: 0 4px 0 var(--orange-dk); transition: transform 0.1s, opacity 0.2s; opacity: 0.35; pointer-events: none; }
     #atravel-save.ready { opacity: 1; pointer-events: auto; }
     #atravel-save.ready:active { transform: scale(0.98); }
-    
+
     #splash { position: fixed; inset: 0; background: #1a0a00; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 99999; transition: opacity 0.4s; }
     #splash.hide { opacity: 0; pointer-events: none; }
     #splash .splash-emoji { font-size: 4rem; margin-bottom: 12px; animation: splashbounce 0.8s ease-in-out infinite alternate; }
     #splash .splash-title { font-family: var(--font-b); font-size: 1.4rem; font-weight: 800; color: #faf8f3; letter-spacing: -0.02em; }
     #splash .splash-sub { font-family: var(--font-b); font-size: 0.75rem; color: #e8601a; margin-top: 6px; }
     @keyframes splashbounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
-</style>
+    </style>
 </head>
 <body>
 <div id="splash">
@@ -409,7 +397,6 @@
     <div class="splash-sub">Finding your location…</div>
 </div>
 
-<!-- Netlify form detection (hidden) -->
 <form name="holyshit-report" netlify netlify-honeypot="bot-field" hidden>
     <input type="hidden" name="form-name" value="holyshit-report" />
     <input type="hidden" name="bot-field" />
@@ -471,8 +458,8 @@
     </div>
     <div class="stat-row">
         <div class="stat-card"><div class="stat-value orange" id="stat-dist">—</div><div class="stat-label">Distance</div></div>
-        <div class="stat-card"><div class="stat-value green"  id="stat-toilets">—</div><div class="stat-label">Toilets</div></div>
-        <div class="stat-card"><div class="stat-value cyan"   id="stat-water">—</div><div class="stat-label">Water</div></div>
+        <div class="stat-card"><div class="stat-value green" id="stat-toilets">—</div><div class="stat-label">Toilets</div></div>
+        <div class="stat-card"><div class="stat-value cyan" id="stat-water">—</div><div class="stat-label">Water</div></div>
     </div>
     <div id="route-facilities"></div>
     <button class="btn-go" onclick="startRunFromPlan()">▶ START ROUTE</button>
@@ -527,8 +514,8 @@
 </div>
 
 <nav id="bottom-nav">
-    <button class="nav-tab" id="tab-map"  onclick="navTap('map')"><div class="nav-icon" id="map-mode-icon">🗺️</div><div class="nav-label" id="map-mode-label">Map</div></button>
-    <button class="nav-tab nav-tab-poo" id="tab-near" onclick="navTap('near')"><div class="nav-icon nav-icon-poo">💩</div><div class="nav-label">Near Me</div></button>
+    <button class="nav-tab" id="tab-map" onclick="navTap('map')"><div class="nav-icon" id="map-mode-icon">🗺️</div><div class="nav-label" id="map-mode-label">Map</div></button>
+    <button class="nav-tab nav-tab-poo active" id="tab-near" onclick="navTap('near')"><div class="nav-icon nav-icon-poo">💩</div><div class="nav-label">Near Me</div></button>
     <button class="nav-tab" id="tab-travel" onclick="navTap('travel')"><div class="nav-icon" id="travel-mode-icon">🏃</div><div class="nav-label" id="travel-mode-nav-label">Mode</div></button>
 </nav>
 
@@ -540,42 +527,71 @@
 let _toastTimer = null;
 function showToast(msg, duration = 2800) {
     const el = document.getElementById('msg-toast');
+    if (!el) return;
     el.textContent = msg;
     el.classList.add('show');
     clearTimeout(_toastTimer);
     _toastTimer = setTimeout(() => el.classList.remove('show'), duration);
 }
+
 const UNITS = (function() {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
     const useMiles = tz.startsWith('America/') || tz.startsWith('US/') || ['Europe/London','Europe/Belfast'].includes(tz);
     return {
-        distLong: useMiles ? 'MILES' : 'KM', pace: useMiles ? 'MIN/MI' : 'MIN/KM',
+        distLong: useMiles ? 'MILES' : 'KM',
+        pace: useMiles ? 'MIN/MI' : 'MIN/KM',
         fromKm: km => useMiles ? km * 0.621371 : km,
-        fmtDist: (km, d=2) => (useMiles ? km*0.621371 : km).toFixed(d) + (useMiles ? ' mi' : ' km'),
-        fmtShort: km => (useMiles ? (km*0.621371).toFixed(1)+' mi' : km.toFixed(1)+' km'),
+        fmtDist: (km, d = 2) => (useMiles ? km * 0.621371 : km).toFixed(d) + (useMiles ? ' mi' : ' km'),
+        fmtShort: km => (useMiles ? (km * 0.621371).toFixed(1) + ' mi' : km.toFixed(1) + ' km'),
     };
 })();
 
-// PWA
 let deferredInstallPrompt = null;
 const INSTALL_KEY = 'hs_install_dismissed';
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstallPrompt = e; if (!sessionStorage.getItem(INSTALL_KEY)) setTimeout(() => document.getElementById('install-banner').classList.add('show'), 4000); });
-window.addEventListener('appinstalled', () => document.getElementById('install-banner').classList.remove('show'));
-function triggerInstall() { if (!deferredInstallPrompt) return; deferredInstallPrompt.prompt(); deferredInstallPrompt.userChoice.then(() => { document.getElementById('install-banner').classList.remove('show'); deferredInstallPrompt = null; }); }
-function dismissInstall() { document.getElementById('install-banner').classList.remove('show'); sessionStorage.setItem(INSTALL_KEY,'1'); }
-function checkIosInstall() { if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone && !sessionStorage.getItem(INSTALL_KEY)) setTimeout(() => document.getElementById('ios-nudge').classList.add('show'), 5000); }
-function dismissIosNudge() { document.getElementById('ios-nudge').classList.remove('show'); sessionStorage.setItem(INSTALL_KEY,'1'); }
-if ('serviceWorker' in navigator) window.addEventListener('load', async () => {
-    try {
-        const reg = await navigator.serviceWorker.register('/sw.js');
-        if (reg && typeof reg.update === 'function') reg.update().catch(() => {});
-    } catch (err) {
-        console.error('[HolyShit] Service worker registration failed', err);
+window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (!sessionStorage.getItem(INSTALL_KEY)) {
+        setTimeout(() => {
+            const banner = document.getElementById('install-banner');
+            if (banner) banner.classList.add('show');
+        }, 4000);
     }
 });
+window.addEventListener('appinstalled', () => {
+    const banner = document.getElementById('install-banner');
+    if (banner) banner.classList.remove('show');
+});
+function triggerInstall() {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(() => {
+        const banner = document.getElementById('install-banner');
+        if (banner) banner.classList.remove('show');
+        deferredInstallPrompt = null;
+    });
+}
+function dismissInstall() {
+    const banner = document.getElementById('install-banner');
+    if (banner) banner.classList.remove('show');
+    sessionStorage.setItem(INSTALL_KEY, '1');
+}
+function checkIosInstall() {
+    if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !window.navigator.standalone && !sessionStorage.getItem(INSTALL_KEY)) {
+        setTimeout(() => {
+            const nudge = document.getElementById('ios-nudge');
+            if (nudge) nudge.classList.add('show');
+        }, 5000);
+    }
+}
+function dismissIosNudge() {
+    const nudge = document.getElementById('ios-nudge');
+    if (nudge) nudge.classList.remove('show');
+    sessionStorage.setItem(INSTALL_KEY, '1');
+}
 
-// STATE
-// Read travel mode saved from landing page (default: WALKING)
+// Service worker temporarily disabled while debugging cache issues.
+
 let TRAVEL_MODE = localStorage.getItem('hs_travel_mode') || 'WALKING';
 window._travelMode = TRAVEL_MODE;
 
@@ -592,201 +608,366 @@ let currentTravelMode = 'WALKING';
 let currentRouteTolerance = 0.0009;
 let cachedRoutePath = null, cachedRouteSummary = null;
 let navPolyline = null;
-
-// Canvas-based emoji markers — reliable across all browsers
-function makeEmojiMarkerIcon(emoji, pinColor) {
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="36" viewBox="0 0 28 36">'
-        + '<path d="M14 1C7.4 1 2 6.4 2 13c0 8.5 12 22 12 22S26 21.5 26 13C26 6.4 20.6 1 14 1Z" fill="' + pinColor + '" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>'
-        + '<circle cx="14" cy="13" r="7" fill="rgba(0,0,0,0.25)"/>'
-        + '</svg>';
-    return {
-        url: 'data:image/svg+xml;base64,' + btoa(svg),
-        scaledSize: new google.maps.Size(28, 36),
-        anchor: new google.maps.Point(14, 36)
-    };
-}
+let infoWindow = null;
 
 const MAP_MODES = [
-    { type: 'satellite',styles: false, icon: '🛰️',  label: 'Satellite', toast: '🛰️ Satellite view' },
-    { type: 'hybrid',   styles: false, icon: '🌏',  label: 'Hybrid',    toast: '🌏 Hybrid view' },
-    { type: 'roadmap',  styles: true,  icon: '🗺️',  label: 'Map',       toast: '🗺️ Standard map' },
+    { type: 'satellite', styles: false, icon: '🛰️', label: 'Satellite', toast: '🛰️ Satellite view' },
+    { type: 'hybrid', styles: false, icon: '🌏', label: 'Hybrid', toast: '🌏 Hybrid view' },
+    { type: 'roadmap', styles: true, icon: '🗺️', label: 'Map', toast: '🗺️ Standard map' },
 ];
-let mapModeIdx = 0;
+let mapModeIdx = 2;
 
 function navTap(tab) {
     if (tab !== 'map' && tab !== 'travel') {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('tab-' + tab).classList.add('active');
+        const target = document.getElementById('tab-' + tab);
+        if (target) target.classList.add('active');
     }
-    if (tab === 'near')   { findNearest(); }
-    if (tab === 'travel') { openTravelModal(); }
-    if (tab === 'map')    { cycleMapMode(); }
+    if (tab === 'near') findNearest();
+    if (tab === 'travel') openTravelModal();
+    if (tab === 'map') cycleMapMode();
 }
+
 function cycleMapMode() {
+    if (!map) return;
     mapModeIdx = (mapModeIdx + 1) % MAP_MODES.length;
     const m = MAP_MODES[mapModeIdx];
     map.setMapTypeId(m.type);
     map.setOptions({ styles: m.styles ? warmStyle() : [] });
-    document.getElementById('map-mode-icon').innerText  = m.icon;
+    document.getElementById('map-mode-icon').innerText = m.icon;
     document.getElementById('map-mode-label').innerText = m.label;
     showToast(m.toast);
 }
-function closeAll() { closeSheet(); closeReport(); cancelNavigation(); document.getElementById('route-summary').classList.remove('open'); document.getElementById('more-sheet').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-function openMore()  { document.getElementById('more-sheet').classList.add('open');    document.getElementById('overlay').classList.add('show'); }
-function closeMore() { document.getElementById('more-sheet').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+
+function closeAll() {
+    closeSheet();
+    closeReport();
+    cancelNavigation();
+    document.getElementById('route-summary').classList.remove('open');
+    document.getElementById('more-sheet').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+}
+
+function openMore() {
+    document.getElementById('more-sheet').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+}
+
+function closeMore() {
+    document.getElementById('more-sheet').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+}
 
 async function initMap() {
-    // Try to get user location before centering map
+    console.log('[HolyShit] initMap started');
+
     let startCenter = { lat: -35.2809, lng: 149.1300 };
+
     try {
         await new Promise((resolve) => {
             navigator.geolocation.getCurrentPosition(
-                pos => { startCenter = { lat: pos.coords.latitude, lng: pos.coords.longitude }; resolve(); },
-                () => resolve(), // fall back to Canberra on error/denial
-                { enableHighAccuracy: true, timeout: 4000, maximumAge: 30000 }
+                pos => {
+                    startCenter = {
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude
+                    };
+                    console.log('[HolyShit] Initial GPS center:', startCenter);
+                    resolve();
+                },
+                err => {
+                    console.warn('[HolyShit] Initial GPS failed, using fallback center:', err);
+                    resolve();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                }
             );
         });
-    } catch(e) {}
-    // Hide splash
+    } catch (e) {
+        console.warn('[HolyShit] GPS bootstrap failed:', e);
+    }
+
     const splash = document.getElementById('splash');
-    if (splash) { splash.classList.add('hide'); setTimeout(() => splash.remove(), 400); }
+    if (splash) {
+        splash.classList.add('hide');
+        setTimeout(() => splash.remove(), 400);
+    }
+
     map = new google.maps.Map(document.getElementById('map'), {
         center: startCenter,
         zoom: 15,
-        mapTypeId: 'satellite',
+        mapTypeId: 'roadmap',
         styles: warmStyle(),
         gestureHandling: 'greedy',
         disableDefaultUI: true,
-        clickableIcons: false,
+        clickableIcons: false
     });
-    geocoder          = new google.maps.Geocoder();
+
+    geocoder = new google.maps.Geocoder();
     directionsService = new google.maps.DirectionsService();
-    setTimeout(() => google.maps.event.trigger(map, 'resize'), 100);
+
     document.getElementById('hud-dist-lbl').innerText = UNITS.distLong;
     document.getElementById('hud-pace-lbl').innerText = UNITS.pace;
-    pooIcon    = makeEmojiMarkerIcon('💩', '#e8601a');
-    goldenIcon = makeEmojiMarkerIcon('⭐', '#FFD700');
+
+    pooIcon = {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: '#e8601a',
+        fillOpacity: 1,
+        strokeColor: '#ffffff',
+        strokeWeight: 2,
+        scale: 8
+    };
+
+    goldenIcon = {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillColor: '#FFD700',
+        fillOpacity: 1,
+        strokeColor: '#ffffff',
+        strokeWeight: 2,
+        scale: 8
+    };
+
     map.addListener('click', handleMapClick);
     map.addListener('idle', renderVisibleMarkers);
     map.addListener('dragstart', () => { userHasPanned = true; });
-    loadData(); startBlueDot(); checkIosInstall(); updateTravelModeLabel();
+
+    await loadData();
+    startBlueDot();
+    checkIosInstall();
+    updateTravelModeLabel();
+
+    console.log('[HolyShit] Map ready');
 }
 
 function warmStyle() {
     return [
-        { elementType: 'geometry',                              stylers: [{ color: '#f5f0e8' }] },
-        { elementType: 'labels.text.fill',                      stylers: [{ color: '#6b6258' }] },
-        { elementType: 'labels.text.stroke',                    stylers: [{ color: '#faf8f3' }] },
-        { featureType: 'road',         elementType: 'geometry',         stylers: [{ color: '#ffffff' }] },
-        { featureType: 'road',         elementType: 'geometry.stroke',   stylers: [{ color: '#e0dbd2' }] },
-        { featureType: 'road',         elementType: 'labels.text.fill',  stylers: [{ color: '#8a8070' }] },
-        { featureType: 'road.highway', elementType: 'geometry',         stylers: [{ color: '#ffe0b0' }] },
-        { featureType: 'road.highway', elementType: 'geometry.stroke',   stylers: [{ color: '#e8c880' }] },
-        { featureType: 'water',        elementType: 'geometry',         stylers: [{ color: '#c5dff0' }] },
-        { featureType: 'water',        elementType: 'labels.text.fill',  stylers: [{ color: '#5a8aaa' }] },
-        { featureType: 'poi',          elementType: 'geometry',         stylers: [{ color: '#ede8e0' }] },
-        { featureType: 'poi',          elementType: 'labels',           stylers: [{ visibility: 'off' }] },
-        { featureType: 'poi.park',     elementType: 'geometry',         stylers: [{ color: '#d4e8c8' }] },
-        { featureType: 'poi.park',     elementType: 'labels',           stylers: [{ visibility: 'off' }] },
-        { featureType: 'transit',      elementType: 'geometry',         stylers: [{ visibility: 'off' }] },
-        { featureType: 'transit',      elementType: 'labels',           stylers: [{ visibility: 'off' }] },
-        { featureType: 'administrative.land_parcel',  elementType: 'labels', stylers: [{ visibility: 'off' }] },
+        { elementType: 'geometry', stylers: [{ color: '#f5f0e8' }] },
+        { elementType: 'labels.text.fill', stylers: [{ color: '#6b6258' }] },
+        { elementType: 'labels.text.stroke', stylers: [{ color: '#faf8f3' }] },
+        { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#ffffff' }] },
+        { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#e0dbd2' }] },
+        { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#8a8070' }] },
+        { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#ffe0b0' }] },
+        { featureType: 'road.highway', elementType: 'geometry.stroke', stylers: [{ color: '#e8c880' }] },
+        { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#c5dff0' }] },
+        { featureType: 'water', elementType: 'labels.text.fill', stylers: [{ color: '#5a8aaa' }] },
+        { featureType: 'poi', elementType: 'geometry', stylers: [{ color: '#ede8e0' }] },
+        { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+        { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#d4e8c8' }] },
+        { featureType: 'poi.park', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+        { featureType: 'transit', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
+        { featureType: 'transit', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+        { featureType: 'administrative.land_parcel', elementType: 'labels', stylers: [{ visibility: 'off' }] },
         { featureType: 'administrative.neighborhood', elementType: 'labels', stylers: [{ visibility: 'off' }] },
     ];
 }
 
-const TOILET_DATA_CANDIDATES = [
-    '/toilets-au.json',
-    '/2toilets-au.json'
-];
+const TOILET_DATA_CANDIDATES = ['/toilets-au.json'];
 
 async function fetchJsonArray(url) {
-    const bust = 'v=' + encodeURIComponent((window.__HS_BUILD_VERSION || '2026-03-15'));
-    const join = url.includes('?') ? '&' : '?';
-    const res = await fetch(url + join + bust, { cache: 'no-store' });
-    if (!res.ok) throw new Error('HTTP ' + res.status + ' for ' + url);
+    const res = await fetch(url + '?ts=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) {
+        throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
+    }
     const data = await res.json();
-    if (!Array.isArray(data)) throw new Error('Invalid JSON structure for ' + url);
+    if (!Array.isArray(data)) {
+        throw new Error(`Invalid JSON array for ${url}`);
+    }
     return data;
 }
 
 async function loadData() {
-    const errors = [];
+    try {
+        console.log('[HolyShit] Loading toilet data...');
+        const data = await fetchJsonArray('/toilets-au.json');
 
-    for (const url of TOILET_DATA_CANDIDATES) {
-        try {
-            const data = await fetchJsonArray(url);
-            const valid = data.filter(l => l && typeof l.lat === 'number' && typeof l.lon === 'number');
-            if (!valid.length) throw new Error('No valid toilet records found in ' + url);
-            allLoos = valid;
-            console.log('[HolyShit] Loaded ' + allLoos.length + ' toilet locations from ' + url);
-            renderVisibleMarkers();
-            return;
-        } catch (err) {
-            console.error('[HolyShit] Failed to load toilet data from ' + url, err);
-            errors.push(url + ': ' + err.message);
+        allLoos = data.filter(item =>
+            item &&
+            typeof item.lat === 'number' &&
+            typeof item.lon === 'number'
+        );
+
+        console.log('[HolyShit] Toilet locations loaded:', allLoos.length);
+
+        if (!allLoos.length) {
+            throw new Error('No valid toilet coordinates found');
         }
-    }
 
-    allLoos = [];
-    showToast('Could not load toilet locations');
-    console.error('[HolyShit] Toilet data unavailable. Checked:', errors.join(' | '));
+        renderVisibleMarkers();
+    } catch (err) {
+        console.error('[HolyShit] loadData failed:', err);
+        allLoos = [];
+        alert('Toilet data failed to load. Check browser console.');
+    }
 }
 
 function renderVisibleMarkers() {
+    if (!map) return;
     if (plannerActive || isRunning) return;
-    const bounds = map.getBounds(); if (!bounds) return;
-    markers.forEach(m => m.setMap(null)); markers = [];
+
+    const bounds = map.getBounds();
+    if (!bounds) {
+        console.log('[HolyShit] No map bounds yet');
+        return;
+    }
+
+    markers.forEach(m => m.setMap(null));
+    markers = [];
+
     const centre = map.getCenter();
-    const clat = centre.lat(), clng = centre.lng();
-    allLoos
-        .filter(l => l && typeof l.lat === 'number' && typeof l.lon === 'number' && bounds.contains({ lat: l.lat, lng: l.lon }))
-        .sort((a,b) => haversineKm(clat,clng,a.lat,a.lon) - haversineKm(clat,clng,b.lat,b.lon))
-        .slice(0, 200).forEach(loo => {
-        const icon = pooIcon;
-        const marker = new google.maps.Marker({ position: { lat: loo.lat, lng: loo.lon }, map, icon, title: loo.n || 'Toilet location', optimized: false });
-        marker.addListener('click', () => { if (!pickingStep) openSheet(loo); });
+    const clat = centre.lat();
+    const clng = centre.lng();
+
+    const visible = allLoos
+        .filter(l =>
+            l &&
+            typeof l.lat === 'number' &&
+            typeof l.lon === 'number' &&
+            bounds.contains({ lat: l.lat, lng: l.lon })
+        )
+        .sort((a, b) =>
+            haversineKm(clat, clng, a.lat, a.lon) - haversineKm(clat, clng, b.lat, b.lon)
+        )
+        .slice(0, 200);
+
+    console.log('[HolyShit] Visible toilet markers:', visible.length);
+
+    visible.forEach(loo => {
+        const marker = new google.maps.Marker({
+            position: { lat: loo.lat, lng: loo.lon },
+            map,
+            icon: pooIcon,
+            title: loo.n || 'Toilet location',
+            optimized: false
+        });
+
+        marker.addListener('click', () => {
+            if (!pickingStep) openSheet(loo);
+        });
+
         markers.push(marker);
     });
 }
 
 function startBlueDot() {
-    if (!navigator.geolocation) return;
-    document.getElementById('locate-fab').classList.add('waiting');
+    if (!navigator.geolocation) {
+        console.error('[HolyShit] Geolocation not supported');
+        alert('Geolocation is not supported on this device/browser.');
+        return;
+    }
+
+    const fab = document.getElementById('locate-fab');
+    fab.classList.add('waiting');
+
+    console.log('[HolyShit] Starting geolocation...');
+
     blueWatchId = navigator.geolocation.watchPosition(
         pos => {
-            const { latitude: lat, longitude: lng, accuracy } = pos.coords;
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const accuracy = pos.coords.accuracy;
+
+            console.log('[HolyShit] GPS update:', lat, lng, 'accuracy:', accuracy);
+
+            fab.classList.remove('waiting');
+
+            if (!blueDotAccuracy) {
+                blueDotAccuracy = new google.maps.Circle({
+                    map,
+                    center: { lat, lng },
+                    radius: accuracy,
+                    fillColor: '#1a8fd9',
+                    fillOpacity: 0.12,
+                    strokeColor: '#1a8fd9',
+                    strokeOpacity: 0.30,
+                    strokeWeight: 1,
+                    clickable: false,
+                    zIndex: 1
+                });
+            } else {
+                blueDotAccuracy.setCenter({ lat, lng });
+                blueDotAccuracy.setRadius(accuracy);
+            }
+
             if (!blueDotMarker) {
-                document.getElementById('locate-fab').classList.remove('waiting');
-                blueDotAccuracy = new google.maps.Circle({ map, center: {lat,lng}, radius: accuracy, fillColor: '#1a8fd9', fillOpacity: 0.12, strokeColor: '#1a8fd9', strokeOpacity: 0.30, strokeWeight: 1, clickable: false, zIndex: 1 });
-                blueDotMarker   = new google.maps.Marker({ position: {lat,lng}, map, icon: { path: google.maps.SymbolPath.CIRCLE, fillColor: '#1a8fd9', fillOpacity: 1, strokeColor: '#FFFFFF', strokeWeight: 3, scale: 9 }, zIndex: 10, clickable: false });
-                if (!userHasPanned) map.panTo({lat,lng});
-            } else { blueDotMarker.setPosition({lat,lng}); blueDotAccuracy.setCenter({lat,lng}); blueDotAccuracy.setRadius(accuracy); }
+                blueDotMarker = new google.maps.Marker({
+                    position: { lat, lng },
+                    map,
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        fillColor: '#1a8fd9',
+                        fillOpacity: 1,
+                        strokeColor: '#FFFFFF',
+                        strokeWeight: 3,
+                        scale: 9
+                    },
+                    zIndex: 10,
+                    clickable: false
+                });
+            } else {
+                blueDotMarker.setPosition({ lat, lng });
+            }
+
+            if (!userHasPanned) {
+                map.panTo({ lat, lng });
+            }
         },
-        err => console.warn('GPS:', err.message),
-        { enableHighAccuracy: true, maximumAge: 30000, timeout: 20000 }
+        err => {
+            fab.classList.remove('waiting');
+            console.error('[HolyShit] Geolocation failed:', err);
+            alert('Location failed: ' + err.message);
+        },
+        {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: 15000
+        }
     );
 }
-function centreOnUser() { if (blueDotMarker) map.panTo(blueDotMarker.getPosition()); }
 
-function findNearest() {
-    if (!blueDotMarker) { showToast('📍 Waiting for GPS fix…'); return; }
-    const { lat, lng } = blueDotMarker.getPosition().toJSON();
-    let nearest = null, bestDist = Infinity;
-    allLoos.forEach(l => { const d = haversineKm(lat,lng,l.lat,l.lon); if (d < bestDist) { bestDist = d; nearest = l; } });
-    if (nearest) { map.panTo({ lat: nearest.lat, lng: nearest.lon }); map.setZoom(17); openSheet(nearest); }
+function centreOnUser() {
+    if (blueDotMarker) {
+        map.panTo(blueDotMarker.getPosition());
+        map.setZoom(16);
+    } else {
+        showToast('📍 Waiting for GPS fix…');
+    }
 }
 
-// INFOWINDOW — all 3 buttons: Navigate, Report, Street View
-let infoWindow = null;
+function findNearest() {
+    if (!blueDotMarker) {
+        showToast('📍 Waiting for GPS fix…');
+        return;
+    }
+    const { lat, lng } = blueDotMarker.getPosition().toJSON();
+    let nearest = null;
+    let bestDist = Infinity;
+    allLoos.forEach(l => {
+        const d = haversineKm(lat, lng, l.lat, l.lon);
+        if (d < bestDist) {
+            bestDist = d;
+            nearest = l;
+        }
+    });
+    if (nearest) {
+        map.panTo({ lat: nearest.lat, lng: nearest.lon });
+        map.setZoom(17);
+        openSheet(nearest);
+    }
+}
+
 function openSheet(loo) {
-    currentLoo = loo; if (infoWindow) infoWindow.close();
+    currentLoo = loo;
+    if (infoWindow) infoWindow.close();
+
     const emoji = loo.golden ? '⭐' : (loo.ff ? '🍔' : '💩');
-    const addr  = loo.a || '';
+    const addr = loo.a || '';
     const content = `<div class="iw-card">
         <button class="iw-close" onclick="closeSheet()">✕</button>
         <span class="iw-emoji">${emoji}</span>
-        <div class="iw-name">${loo.n}</div>
+        <div class="iw-name">${loo.n || 'Toilet location'}</div>
         ${addr ? `<div class="iw-address">${addr}</div>` : ''}
         <div class="iw-actions">
             <button class="iw-btn iw-btn-primary" onclick="openDirections()">
@@ -800,88 +981,178 @@ function openSheet(loo) {
             </button>
         </div>
     </div>`;
-    infoWindow = new google.maps.InfoWindow({ content, pixelOffset: new google.maps.Size(0, -8), disableAutoPan: false });
-    infoWindow.open(map); infoWindow.setPosition({ lat: loo.lat, lng: loo.lon });
-}
-function closeSheet() { if (infoWindow) { infoWindow.close(); infoWindow = null; } currentLoo = null; }
-function handleMapClick(e) { if (pickingStep) handlePickTap(e.latLng); else { closeSheet(); closeAll(); } }
 
-// IN-APP NAVIGATION
+    infoWindow = new google.maps.InfoWindow({
+        content,
+        pixelOffset: new google.maps.Size(0, -8),
+        disableAutoPan: false
+    });
+    infoWindow.open(map);
+    infoWindow.setPosition({ lat: loo.lat, lng: loo.lon });
+
+    setTimeout(updateTravelModeLabel, 0);
+}
+
+function closeSheet() {
+    if (infoWindow) {
+        infoWindow.close();
+        infoWindow = null;
+    }
+    currentLoo = null;
+}
+
+function handleMapClick(e) {
+    if (pickingStep) handlePickTap(e.latLng);
+    else {
+        closeSheet();
+        closeAll();
+    }
+}
+
 function openDirections() {
     if (!currentLoo) return;
-    if (!blueDotMarker) { showToast('📍 Waiting for GPS fix — try again shortly.'); return; }
-    // Always read freshest travel mode from localStorage
+    if (!blueDotMarker) {
+        showToast('📍 Waiting for GPS fix — try again shortly.');
+        return;
+    }
+
     window._travelMode = localStorage.getItem('hs_travel_mode') || 'WALKING';
-    // Capture everything BEFORE closeSheet() nulls currentLoo
-    const loo    = currentLoo;
+    const loo = currentLoo;
     const origin = blueDotMarker.getPosition();
-    const dest   = { lat: loo.lat, lng: loo.lon };
+    const dest = { lat: loo.lat, lng: loo.lon };
     closeSheet();
-    if (navPolyline) { navPolyline.setMap(null); navPolyline = null; }
-    document.getElementById('nav-bar-name').innerText = loo.n;
+
+    if (navPolyline) {
+        navPolyline.setMap(null);
+        navPolyline = null;
+    }
+
+    document.getElementById('nav-bar-name').innerText = loo.n || 'Toilet location';
     document.getElementById('nav-bar-dist').innerHTML = '<span>Calculating…</span>';
     document.getElementById('nav-bar').classList.add('active');
+
     directionsService.route(
         { origin, destination: dest, travelMode: google.maps.TravelMode[window._travelMode || TRAVEL_MODE] },
         (result, status) => {
-            if (status !== 'OK') { document.getElementById('nav-bar-dist').innerHTML = 'Could not find route'; return; }
+            if (status !== 'OK') {
+                document.getElementById('nav-bar-dist').innerHTML = 'Could not find route';
+                return;
+            }
             const leg = result.routes[0].legs[0];
             const path = result.routes[0].overview_path;
-            navPolyline = new google.maps.Polyline({ path, geodesic: true, strokeColor: '#e8601a', strokeOpacity: 0.9, strokeWeight: 5, map });
+            navPolyline = new google.maps.Polyline({
+                path,
+                geodesic: true,
+                strokeColor: '#e8601a',
+                strokeOpacity: 0.9,
+                strokeWeight: 5,
+                map
+            });
             const modeLabel = { DRIVING: 'driving', WALKING: 'walking', BICYCLING: 'cycling' };
             const activeMode = window._travelMode || TRAVEL_MODE;
             document.getElementById('nav-bar-dist').innerHTML = `<span>${leg.distance.text}</span> · ${leg.duration.text} ${modeLabel[activeMode] || 'walking'}`;
+
             const bounds = new google.maps.LatLngBounds();
             path.forEach(p => bounds.extend(p));
             map.fitBounds(bounds, { top: 80, right: 40, bottom: 140, left: 40 });
         }
     );
 }
+
 function cancelNavigation(panToUser = false) {
-    if (navPolyline) { navPolyline.setMap(null); navPolyline = null; }
+    if (navPolyline) {
+        navPolyline.setMap(null);
+        navPolyline = null;
+    }
     document.getElementById('nav-bar').classList.remove('active');
     if (panToUser && blueDotMarker) map.panTo(blueDotMarker.getPosition());
 }
 
-// STREET VIEW
 function openStreetView() {
     if (!currentLoo) return;
-    document.getElementById('sv-title').innerText = currentLoo.n;
+    document.getElementById('sv-title').innerText = currentLoo.n || 'Street View';
     document.getElementById('sv-modal').classList.add('open');
-    if (panorama) { panorama.setVisible(false); panorama = null; }
-    panorama = new google.maps.StreetViewPanorama(document.getElementById('sv-panorama'), { position: { lat: currentLoo.lat, lng: currentLoo.lon }, addressControl: false, motionTracking: false, motionTrackingControl: false, enableCloseButton: false, linksControl: false, panControl: false, zoomControl: false, fullscreenControl: false, showRoadLabels: false });
+    if (panorama) {
+        panorama.setVisible(false);
+        panorama = null;
+    }
+    panorama = new google.maps.StreetViewPanorama(document.getElementById('sv-panorama'), {
+        position: { lat: currentLoo.lat, lng: currentLoo.lon },
+        addressControl: false,
+        motionTracking: false,
+        motionTrackingControl: false,
+        enableCloseButton: false,
+        linksControl: false,
+        panControl: false,
+        zoomControl: false,
+        fullscreenControl: false,
+        showRoadLabels: false
+    });
 }
-function closeStreetView() { document.getElementById('sv-modal').classList.remove('open'); if (panorama) { panorama.setVisible(false); panorama = null; } }
-function svRotate(d) { if (!panorama) return; const p = panorama.getPov(); panorama.setPov({ heading: (p.heading + d + 360) % 360, pitch: p.pitch }); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStreetView(); });
 
-// ROUTE PLANNER
-function openPlanner() { plannerActive = true; document.getElementById('planner-bar').classList.add('active'); closeAll(); activateStep('start'); }
+function closeStreetView() {
+    document.getElementById('sv-modal').classList.remove('open');
+    if (panorama) {
+        panorama.setVisible(false);
+        panorama = null;
+    }
+}
+
+function svRotate(d) {
+    if (!panorama) return;
+    const p = panorama.getPov();
+    panorama.setPov({ heading: (p.heading + d + 360) % 360, pitch: p.pitch });
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeStreetView();
+});
+
+function openPlanner() {
+    plannerActive = true;
+    document.getElementById('planner-bar').classList.add('active');
+    closeAll();
+    activateStep('start');
+}
 
 function closePlanner() {
-    plannerActive = false; pickingStep = null; planStart = null; planEnd = null; cachedRoutePath = null; cachedRouteSummary = null;
+    plannerActive = false;
+    pickingStep = null;
+    planStart = null;
+    planEnd = null;
+    cachedRoutePath = null;
+    cachedRouteSummary = null;
     document.getElementById('planner-bar').classList.remove('active');
     document.getElementById('route-summary').classList.remove('open');
     document.getElementById('pick-toast').classList.remove('show');
     document.getElementById('loading-toast').classList.remove('show');
-    document.getElementById('map').classList.remove('picking');
-    resetStep('start'); resetStep('end');
+    document.getElementById('overlay').classList.remove('show');
+    resetStep('start');
+    resetStep('end');
     if (planStartMarker) { planStartMarker.setMap(null); planStartMarker = null; }
-    if (planEndMarker)   { planEndMarker.setMap(null);   planEndMarker   = null; }
-    if (routePolyline)   { routePolyline.setMap(null);   routePolyline   = null; }
-    routeMarkers.forEach(m => m.setMap(null)); routeMarkers = [];
-    markers.forEach(m => m.setMap(null)); markers = [];
+    if (planEndMarker) { planEndMarker.setMap(null); planEndMarker = null; }
+    if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
+    routeMarkers.forEach(m => m.setMap(null));
+    routeMarkers = [];
+    markers.forEach(m => m.setMap(null));
+    markers = [];
     renderVisibleMarkers();
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-near').classList.add('active'); // reset to Near Me
+    document.getElementById('tab-near').classList.add('active');
 }
 
-function resetStep(w) { document.getElementById('step-' + w).className = 'planner-step'; document.getElementById('step-' + w + '-val').innerText = 'Tap to set'; }
+function resetStep(w) {
+    document.getElementById('step-' + w).className = 'planner-step';
+    document.getElementById('step-' + w + '-val').innerText = 'Tap to set';
+}
 
 function activateStep(w) {
     if (!plannerActive) return;
-    pickingStep = w; document.getElementById('map').classList.add('picking');
-    ['start','end'].forEach(s => { const el = document.getElementById('step-' + s); if (s === w && !el.classList.contains('done')) el.className = 'planner-step current'; });
+    pickingStep = w;
+    ['start', 'end'].forEach(s => {
+        const el = document.getElementById('step-' + s);
+        if (s === w && !el.classList.contains('done')) el.className = 'planner-step current';
+    });
     const toast = document.getElementById('pick-toast');
     if (w === 'start') {
         toast.innerHTML = '📍 Tap map to set START or <button id="btn-use-current" onclick="useCurrentLocation()">Use Current</button>';
@@ -892,41 +1163,71 @@ function activateStep(w) {
 }
 
 function useCurrentLocation() {
-    if (!blueDotMarker) { showToast('📍 Getting GPS fix, please wait…'); return; }
+    if (!blueDotMarker) {
+        showToast('📍 Getting GPS fix, please wait…');
+        return;
+    }
     const latLng = blueDotMarker.getPosition();
-    const lat = latLng.lat(), lng = latLng.lng();
+    const lat = latLng.lat();
+    const lng = latLng.lng();
     planStart = { lat, lng, label: '📍 Current Location' };
     setStepDone('start', '📍 Current Location');
     if (planStartMarker) planStartMarker.setMap(null);
     planStartMarker = makePinMarker({ lat, lng }, '#e8601a', 'A');
     document.getElementById('pick-toast').classList.remove('show');
-    document.getElementById('map').classList.remove('picking');
     pickingStep = null;
-    if (!planEnd) setTimeout(() => activateStep('end'), 300); else computeRoute();
+    if (!planEnd) setTimeout(() => activateStep('end'), 300);
+    else computeRoute();
 }
 
 function handlePickTap(latLng) {
-    const which = pickingStep; pickingStep = null;
-    document.getElementById('map').classList.remove('picking'); document.getElementById('pick-toast').classList.remove('show');
-    const lat = latLng.lat(), lng = latLng.lng();
+    const which = pickingStep;
+    pickingStep = null;
+    document.getElementById('pick-toast').classList.remove('show');
+    const lat = latLng.lat();
+    const lng = latLng.lng();
     geocoder.geocode({ location: { lat, lng } }, (results, status) => {
         const label = (status === 'OK' && results[0]) ? results[0].formatted_address.split(',')[0] : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
         if (which === 'start') {
-            planStart = { lat, lng, label }; setStepDone('start', label);
-            if (planStartMarker) planStartMarker.setMap(null); planStartMarker = makePinMarker({ lat, lng }, '#e8601a', 'A');
-            if (!planEnd) setTimeout(() => activateStep('end'), 300); else computeRoute();
+            planStart = { lat, lng, label };
+            setStepDone('start', label);
+            if (planStartMarker) planStartMarker.setMap(null);
+            planStartMarker = makePinMarker({ lat, lng }, '#e8601a', 'A');
+            if (!planEnd) setTimeout(() => activateStep('end'), 300);
+            else computeRoute();
         } else {
-            planEnd = { lat, lng, label }; setStepDone('end', label);
-            if (planEndMarker) planEndMarker.setMap(null); planEndMarker = makePinMarker({ lat, lng }, '#2a9d4e', 'B');
-            if (planStart) computeRoute(); else setTimeout(() => activateStep('start'), 300);
+            planEnd = { lat, lng, label };
+            setStepDone('end', label);
+            if (planEndMarker) planEndMarker.setMap(null);
+            planEndMarker = makePinMarker({ lat, lng }, '#2a9d4e', 'B');
+            if (planStart) computeRoute();
+            else setTimeout(() => activateStep('start'), 300);
         }
     });
 }
 
-function setStepDone(w, label) { document.getElementById('step-' + w).className = 'planner-step done'; document.getElementById('step-' + w + '-val').innerText = label; }
+function setStepDone(w, label) {
+    document.getElementById('step-' + w).className = 'planner-step done';
+    document.getElementById('step-' + w + '-val').innerText = label;
+}
 
 function makePinMarker(pos, color, letter) {
-    return new google.maps.Marker({ position: pos, map, icon: { path: 'M12 0C7.58 0 4 3.58 4 8c0 5.5 8 14 8 14s8-8.5 8-14c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z', fillColor: color, fillOpacity: 1, strokeColor: '#fff', strokeWeight: 2, scale: 1.8, anchor: new google.maps.Point(12, 22), labelOrigin: new google.maps.Point(12, 8) }, label: { text: letter, color: '#fff', fontSize: '11px', fontWeight: 'bold' }, zIndex: 1000 });
+    return new google.maps.Marker({
+        position: pos,
+        map,
+        icon: {
+            path: 'M12 0C7.58 0 4 3.58 4 8c0 5.5 8 14 8 14s8-8.5 8-14c0-4.42-3.58-8-8-8zm0 11c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z',
+            fillColor: color,
+            fillOpacity: 1,
+            strokeColor: '#fff',
+            strokeWeight: 2,
+            scale: 1.8,
+            anchor: new google.maps.Point(12, 22),
+            labelOrigin: new google.maps.Point(12, 8)
+        },
+        label: { text: letter, color: '#fff', fontSize: '11px', fontWeight: 'bold' },
+        zIndex: 1000
+    });
 }
 
 function setTravelMode(mode, btnEl) {
@@ -938,28 +1239,52 @@ function setTravelMode(mode, btnEl) {
 
 function changeRouteRadius(val) {
     currentRouteTolerance = parseFloat(val);
-    if (cachedRoutePath && cachedRouteSummary) { filterFacilitiesOnRoute(cachedRoutePath); showRouteSummaryUI(); }
+    if (cachedRoutePath && cachedRouteSummary) {
+        filterFacilitiesOnRoute(cachedRoutePath);
+        showRouteSummaryUI();
+    }
 }
 
 function computeRoute() {
-    closeSheet(); closeReport();
+    closeSheet();
+    closeReport();
     document.getElementById('route-summary').classList.remove('open');
     document.getElementById('more-sheet').classList.remove('open');
     document.getElementById('overlay').classList.remove('show');
     document.getElementById('loading-toast').classList.add('show');
+
     directionsService.route(
-        { origin: { lat: planStart.lat, lng: planStart.lng }, destination: { lat: planEnd.lat, lng: planEnd.lng }, travelMode: google.maps.TravelMode[currentTravelMode] },
+        {
+            origin: { lat: planStart.lat, lng: planStart.lng },
+            destination: { lat: planEnd.lat, lng: planEnd.lng },
+            travelMode: google.maps.TravelMode[currentTravelMode]
+        },
         (result, status) => {
             document.getElementById('loading-toast').classList.remove('show');
-            if (status !== 'OK') { showToast('⚠️ Could not calculate route.'); return; }
+            if (status !== 'OK') {
+                showToast('⚠️ Could not calculate route.');
+                return;
+            }
             const leg = result.routes[0].legs[0];
             cachedRoutePath = result.routes[0].overview_path;
             if (routePolyline) routePolyline.setMap(null);
-            routePolyline = new google.maps.Polyline({ path: cachedRoutePath, geodesic: true, strokeColor: '#e8601a', strokeOpacity: 0.9, strokeWeight: 5, map });
+            routePolyline = new google.maps.Polyline({
+                path: cachedRoutePath,
+                geodesic: true,
+                strokeColor: '#e8601a',
+                strokeOpacity: 0.9,
+                strokeWeight: 5,
+                map
+            });
             const bounds = new google.maps.LatLngBounds();
             cachedRoutePath.forEach(p => bounds.extend(p));
             map.fitBounds(bounds, { top: 120, right: 20, bottom: 300, left: 20 });
-            cachedRouteSummary = { distKm: leg.distance.value / 1000, durationText: leg.duration.text, startLabel: planStart.label, endLabel: planEnd.label };
+            cachedRouteSummary = {
+                distKm: leg.distance.value / 1000,
+                durationText: leg.duration.text,
+                startLabel: planStart.label,
+                endLabel: planEnd.label
+            };
             filterFacilitiesOnRoute(cachedRoutePath);
             showRouteSummaryUI();
         }
@@ -967,13 +1292,26 @@ function computeRoute() {
 }
 
 function filterFacilitiesOnRoute(routePath) {
-    routeMarkers.forEach(m => m.setMap(null)); routeMarkers = [];
-    markers.forEach(m => m.setMap(null)); markers = [];
+    routeMarkers.forEach(m => m.setMap(null));
+    routeMarkers = [];
+    markers.forEach(m => m.setMap(null));
+    markers = [];
     const polyline = new google.maps.Polyline({ path: routePath });
-    routeFacilities = allLoos.filter(loo => google.maps.geometry.poly.isLocationOnEdge(new google.maps.LatLng(loo.lat, loo.lon), polyline, currentRouteTolerance));
+    routeFacilities = allLoos.filter(loo =>
+        google.maps.geometry.poly.isLocationOnEdge(
+            new google.maps.LatLng(loo.lat, loo.lon),
+            polyline,
+            currentRouteTolerance
+        )
+    );
     routeFacilities.forEach(loo => {
-        const icon = pooIcon;
-        const marker = new google.maps.Marker({ position: { lat: loo.lat, lng: loo.lon }, map, icon, optimized: false, zIndex: 500 });
+        const marker = new google.maps.Marker({
+            position: { lat: loo.lat, lng: loo.lon },
+            map,
+            icon: pooIcon,
+            optimized: false,
+            zIndex: 500
+        });
         marker.addListener('click', () => openSheet(loo));
         routeMarkers.push(marker);
     });
@@ -981,75 +1319,147 @@ function filterFacilitiesOnRoute(routePath) {
 
 function showRouteSummaryUI() {
     const toilets = routeFacilities.filter(l => !isWaterOnly(l)).length;
-    const water   = routeFacilities.filter(l => l.t?.f).length;
+    const water = routeFacilities.filter(l => l.t?.f).length;
     document.getElementById('summary-title').innerText = 'ROUTE READY';
-    document.getElementById('summary-meta').innerText  = `${cachedRouteSummary.startLabel} → ${cachedRouteSummary.endLabel}`;
-    document.getElementById('stat-dist').innerText     = UNITS.fmtDist(cachedRouteSummary.distKm);
-    document.getElementById('stat-toilets').innerText  = toilets;
-    document.getElementById('stat-water').innerText    = water;
-    const list = document.getElementById('route-facilities'); list.innerHTML = '';
+    document.getElementById('summary-meta').innerText = `${cachedRouteSummary.startLabel} → ${cachedRouteSummary.endLabel}`;
+    document.getElementById('stat-dist').innerText = UNITS.fmtDist(cachedRouteSummary.distKm);
+    document.getElementById('stat-toilets').innerText = toilets;
+    document.getElementById('stat-water').innerText = water;
+
+    const list = document.getElementById('route-facilities');
+    list.innerHTML = '';
+
     if (routeFacilities.length === 0) {
         list.innerHTML = '<p style="color:var(--text-dim);font-size:0.83rem;text-align:center;padding:16px 0;font-family:var(--font-b)">No facilities found within the selected radius.</p>';
     } else {
         [...routeFacilities]
-            .sort((a,b) => haversineKm(planStart.lat,planStart.lng,a.lat,a.lon) - haversineKm(planStart.lat,planStart.lng,b.lat,b.lon))
+            .sort((a, b) => haversineKm(planStart.lat, planStart.lng, a.lat, a.lon) - haversineKm(planStart.lat, planStart.lng, b.lat, b.lon))
             .forEach(loo => {
                 const dist = UNITS.fmtShort(haversineKm(planStart.lat, planStart.lng, loo.lat, loo.lon));
                 const item = document.createElement('div');
-                item.className = 'route-facility-item'; item.onclick = () => openSheet(loo);
-                item.innerHTML = `<div class="rf-icon${isWaterOnly(loo)?' water':''}">${isWaterOnly(loo)?'💧':(loo.golden?'⭐':(loo.ff?'🍔':'💩'))}</div><div class="rf-info"><div class="rf-name">${loo.n}</div><div class="rf-meta">${[loo.t?.w?'♿':'', loo.t?.f?'💧':'', loo.t?.o==='24/7'?'🟢 24/7':''].filter(Boolean).join('  ')||'Public Facility'}</div></div><div class="rf-dist">${dist}</div>`;
+                item.className = 'route-facility-item';
+                item.onclick = () => openSheet(loo);
+                item.innerHTML = `<div class="rf-icon${isWaterOnly(loo) ? ' water' : ''}">${isWaterOnly(loo) ? '💧' : (loo.golden ? '⭐' : (loo.ff ? '🍔' : '💩'))}</div><div class="rf-info"><div class="rf-name">${loo.n || 'Facility'}</div><div class="rf-meta">${[loo.t?.w ? '♿' : '', loo.t?.f ? '💧' : '', loo.t?.o === '24/7' ? '🟢 24/7' : ''].filter(Boolean).join('  ') || 'Public Facility'}</div></div><div class="rf-dist">${dist}</div>`;
                 list.appendChild(item);
             });
     }
     document.getElementById('route-summary').classList.add('open');
 }
 
-function isWaterOnly(loo) { return loo.t?.f && !loo.t?.w && !loo.t?.b && !loo.golden; }
+function isWaterOnly(loo) {
+    return loo.t?.f && !loo.t?.w && !loo.t?.b && !loo.golden;
+}
 
 function startRunFromPlan() {
     document.getElementById('route-summary').classList.remove('open');
     document.getElementById('planner-bar').classList.remove('active');
     document.getElementById('pick-toast').classList.remove('show');
     document.getElementById('loading-toast').classList.remove('show');
-    document.getElementById('map').classList.remove('picking');
     document.getElementById('overlay').classList.remove('show');
-    plannerActive = false; pickingStep = null;
+    plannerActive = false;
+    pickingStep = null;
     if (planStartMarker) { planStartMarker.setMap(null); planStartMarker = null; }
-    if (planEndMarker)   { planEndMarker.setMap(null);   planEndMarker   = null; }
+    if (planEndMarker) { planEndMarker.setMap(null); planEndMarker = null; }
     if (planStart) map.panTo({ lat: planStart.lat, lng: planStart.lng });
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     startRun();
 }
 
-function haversineKm(la1,lo1,la2,lo2) { const R=6371, dLa=(la2-la1)*Math.PI/180, dLo=(lo2-lo1)*Math.PI/180; const a=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLo/2)**2; return R*2*Math.asin(Math.sqrt(a)); }
-function nearbyPitStops(lat,lon) { return allLoos.filter(l=>haversineKm(lat,lon,l.lat,l.lon)<=0.5).length; }
-function formatPace(m) { if (!isFinite(m)||m<=0||m>99) return '--:--'; const min=Math.floor(m), s=String(Math.round((m-min)*60)).padStart(2,'0'); return `${min}:${s}`; }
-function updateHUD(lat,lon) { document.getElementById('hud-dist').innerText = UNITS.fromKm(totalDistKm).toFixed(2); const elapsed=(Date.now()-runStartTime)/60000; const d=UNITS.fromKm(totalDistKm); document.getElementById('hud-pace').innerText = formatPace(d>0.05 ? elapsed/d : 0); document.getElementById('hud-pits').innerText = nearbyPitStops(lat,lon); }
+function haversineKm(la1, lo1, la2, lo2) {
+    const R = 6371;
+    const dLa = (la2 - la1) * Math.PI / 180;
+    const dLo = (lo2 - lo1) * Math.PI / 180;
+    const a = Math.sin(dLa / 2) ** 2 + Math.cos(la1 * Math.PI / 180) * Math.cos(la2 * Math.PI / 180) * Math.sin(dLo / 2) ** 2;
+    return R * 2 * Math.asin(Math.sqrt(a));
+}
 
-function toggleRun() { isRunning ? stopRun() : startRun(); }
+function nearbyPitStops(lat, lon) {
+    return allLoos.filter(l => haversineKm(lat, lon, l.lat, l.lon) <= 0.5).length;
+}
+
+function formatPace(m) {
+    if (!isFinite(m) || m <= 0 || m > 99) return '--:--';
+    const min = Math.floor(m);
+    const s = String(Math.round((m - min) * 60)).padStart(2, '0');
+    return `${min}:${s}`;
+}
+
+function updateHUD(lat, lon) {
+    document.getElementById('hud-dist').innerText = UNITS.fromKm(totalDistKm).toFixed(2);
+    const elapsed = (Date.now() - runStartTime) / 60000;
+    const d = UNITS.fromKm(totalDistKm);
+    document.getElementById('hud-pace').innerText = formatPace(d > 0.05 ? elapsed / d : 0);
+    document.getElementById('hud-pits').innerText = nearbyPitStops(lat, lon);
+}
+
+function toggleRun() {
+    isRunning ? stopRun() : startRun();
+}
+
 function startRun() {
-    if (!navigator.geolocation) { showToast('⚠️ Geolocation not available on this device.'); return; }
-    isRunning=true; runPath=[]; totalDistKm=0; lastPos=null; runStartTime=Date.now();
+    if (!navigator.geolocation) {
+        showToast('⚠️ Geolocation not available on this device.');
+        return;
+    }
+    isRunning = true;
+    runPath = [];
+    totalDistKm = 0;
+    lastPos = null;
+    runStartTime = Date.now();
     document.getElementById('run-hud').classList.add('active');
+
     if (runPolyline) runPolyline.setMap(null);
-    runPolyline = new google.maps.Polyline({ path: runPath, geodesic:true, strokeColor:'#e8601a', strokeOpacity:0.9, strokeWeight:5, map });
+    runPolyline = new google.maps.Polyline({
+        path: runPath,
+        geodesic: true,
+        strokeColor: '#e8601a',
+        strokeOpacity: 0.9,
+        strokeWeight: 5,
+        map
+    });
+
     runWatchId = navigator.geolocation.watchPosition(
-        pos => { const {latitude:lat, longitude:lon, accuracy} = pos.coords; if (accuracy>40) return; if (lastPos) { const seg=haversineKm(lastPos.lat,lastPos.lon,lat,lon); if(seg>0.003&&seg<0.3) totalDistKm+=seg; } lastPos={lat,lon}; runPath.push({lat,lng:lon}); runPolyline.setPath(runPath); map.panTo({lat,lng:lon}); updateHUD(lat,lon); },
-        err => console.warn('Run GPS:',err.message), {enableHighAccuracy:true, maximumAge:2000, timeout:10000}
+        pos => {
+            const { latitude: lat, longitude: lon, accuracy } = pos.coords;
+            if (accuracy > 40) return;
+            if (lastPos) {
+                const seg = haversineKm(lastPos.lat, lastPos.lon, lat, lon);
+                if (seg > 0.003 && seg < 0.3) totalDistKm += seg;
+            }
+            lastPos = { lat, lon };
+            runPath.push({ lat, lng: lon });
+            runPolyline.setPath(runPath);
+            map.panTo({ lat, lng: lon });
+            updateHUD(lat, lon);
+        },
+        err => console.warn('Run GPS:', err.message),
+        { enableHighAccuracy: true, maximumAge: 2000, timeout: 10000 }
     );
 }
+
 function stopRun() {
-    isRunning=false;
-    if (runWatchId!==null) { navigator.geolocation.clearWatch(runWatchId); runWatchId=null; }
+    isRunning = false;
+    if (runWatchId !== null) {
+        navigator.geolocation.clearWatch(runWatchId);
+        runWatchId = null;
+    }
     document.getElementById('run-hud').classList.remove('active');
     document.getElementById('tab-near').classList.add('active');
-    if (routePolyline) { routePolyline.setMap(null); routePolyline = null; }
-    routeMarkers.forEach(m => m.setMap(null)); routeMarkers = [];
-    planStart = null; planEnd = null; cachedRoutePath = null; cachedRouteSummary = null;
+    if (routePolyline) {
+        routePolyline.setMap(null);
+        routePolyline = null;
+    }
+    routeMarkers.forEach(m => m.setMap(null));
+    routeMarkers = [];
+    planStart = null;
+    planEnd = null;
+    cachedRoutePath = null;
+    cachedRouteSummary = null;
     renderVisibleMarkers();
 }
 
 let selectedReportOption = null;
+
 function openReport() {
     selectedReportOption = null;
     document.querySelectorAll('.report-option').forEach(o => o.classList.remove('selected'));
@@ -1060,46 +1470,63 @@ function openReport() {
     document.getElementById('report-sheet').classList.add('open');
     document.getElementById('overlay').classList.add('show');
 }
-function closeReport() { document.getElementById('report-sheet').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
-function selectReport(el, emoji, label) { document.querySelectorAll('.report-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); selectedReportOption = { emoji, label }; document.getElementById('report-submit').disabled = false; }
+
+function closeReport() {
+    document.getElementById('report-sheet').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+}
+
+function selectReport(el, emoji, label) {
+    document.querySelectorAll('.report-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedReportOption = { emoji, label };
+    document.getElementById('report-submit').disabled = false;
+}
+
 function submitReport() {
     if (!selectedReportOption) return;
     const btn = document.getElementById('report-submit');
-    btn.disabled = true; btn.innerText = 'Sending…';
+    btn.disabled = true;
+    btn.innerText = 'Sending…';
+
     const loc = currentLoo;
     const gps = blueDotMarker ? blueDotMarker.getPosition() : null;
     const payload = new URLSearchParams({
-        'form-name':     'holyshit-report',
-        'bot-field':     '',
-        'status':        selectedReportOption.emoji + ' ' + selectedReportOption.label,
+        'form-name': 'holyshit-report',
+        'bot-field': '',
+        'status': selectedReportOption.emoji + ' ' + selectedReportOption.label,
         'location_name': loc ? (loc.n || loc.a || 'Unnamed facility') : 'No facility selected',
-        'location_id':   loc ? (loc.id || '') : '',
-        'latitude':      loc ? loc.lat : (gps ? gps.lat().toFixed(6) : ''),
-        'longitude':     loc ? loc.lon : (gps ? gps.lng().toFixed(6) : ''),
-        'reported_at':   new Date().toISOString(),
+        'location_id': loc ? (loc.id || '') : '',
+        'latitude': loc ? loc.lat : (gps ? gps.lat().toFixed(6) : ''),
+        'longitude': loc ? loc.lon : (gps ? gps.lng().toFixed(6) : ''),
+        'reported_at': new Date().toISOString(),
     });
-    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: payload.toString() })
-        .catch(() => {})
-        .finally(() => {
-            document.getElementById('report-form').style.display = 'none';
-            document.getElementById('thanks-emoji').innerText = selectedReportOption.emoji;
-            document.getElementById('report-thanks').style.display = 'flex';
-            setTimeout(() => closeReport(), 2200);
-        });
+
+    fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload.toString()
+    })
+    .catch(() => {})
+    .finally(() => {
+        document.getElementById('report-form').style.display = 'none';
+        document.getElementById('thanks-emoji').innerText = selectedReportOption.emoji;
+        document.getElementById('report-thanks').style.display = 'flex';
+        setTimeout(() => closeReport(), 2200);
+    });
 }
 
-// ── IN-APP TRAVEL MODE ──────────────────────────────────────────
 const TRAVEL_LABELS = { DRIVING: '🚗 Drive', WALKING: '🏃 Walk / Run', BICYCLING: '🚴 Cycle' };
 let appTravelSelected = null;
 
 function openTravelModal() {
     closeMore();
-    // Pre-select current mode
     const current = localStorage.getItem('hs_travel_mode') || 'WALKING';
     appTravelSelected = current;
     document.querySelectorAll('.atravel-option').forEach(o => o.classList.remove('selected'));
     const modeMap = { DRIVING: 'atravel-driving', WALKING: 'atravel-walking', BICYCLING: 'atravel-bicycling' };
-    document.getElementById(modeMap[current]).classList.add('selected');
+    const el = document.getElementById(modeMap[current]);
+    if (el) el.classList.add('selected');
     document.getElementById('atravel-save').classList.add('ready');
     document.getElementById('app-travel-overlay').classList.add('show');
 }
@@ -1114,7 +1541,6 @@ function selectAppTravel(mode, el) {
 function saveAppTravel() {
     if (!appTravelSelected) return;
     localStorage.setItem('hs_travel_mode', appTravelSelected);
-    // Update the const at runtime via a mutable var
     window._travelMode = appTravelSelected;
     document.getElementById('app-travel-overlay').classList.remove('show');
     updateTravelModeLabel();
@@ -1130,14 +1556,18 @@ function appTravelOverlayTap(e) {
 function updateTravelModeLabel() {
     const modeEmojis = { DRIVING: '🚗', WALKING: '🏃', BICYCLING: '🚴' };
     const el = document.getElementById('nav-mode-indicator');
-    if (el) { const m = localStorage.getItem('hs_travel_mode') || 'DRIVING'; el.textContent = modeEmojis[m] || '🚗'; }
+    if (el) {
+        const m = localStorage.getItem('hs_travel_mode') || 'DRIVING';
+        el.textContent = modeEmojis[m] || '🚗';
+    }
     const mode = localStorage.getItem('hs_travel_mode') || 'WALKING';
-    const icons  = { DRIVING: '🚗', WALKING: '🏃', BICYCLING: '🚴' };
-    // Update nav button — icon shows current mode, label always says "Mode"
-    const navIcon  = document.getElementById('travel-mode-icon');
+    const icons = { DRIVING: '🚗', WALKING: '🏃', BICYCLING: '🚴' };
+    const navIcon = document.getElementById('travel-mode-icon');
     const navLabel = document.getElementById('travel-mode-nav-label');
-    if (navIcon)  navIcon.innerText  = icons[mode] || '🏃';
+    const moreDesc = document.getElementById('more-travel-desc');
+    if (navIcon) navIcon.innerText = icons[mode] || '🏃';
     if (navLabel) navLabel.innerText = 'Mode';
+    if (moreDesc) moreDesc.innerText = TRAVEL_LABELS[mode] || '🏃 Walk / Run';
 }
 
 window.gm_authFailure = function() {
@@ -1150,15 +1580,14 @@ window.gm_authFailure = function() {
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByuYcj_qjTbjC2sRWx8VmlMLMxELQ3fB8&libraries=geometry&callback=initMap" async defer></script>
 
-<!-- In-app Travel Mode Modal -->
 <div id="app-travel-overlay" onclick="appTravelOverlayTap(event)">
     <div id="app-travel-modal">
         <div class="atravel-handle"></div>
         <div class="atravel-title">TRAVEL MODE</div>
         <div class="atravel-sub">How do you usually get around? Used for directions.</div>
         <div class="atravel-options">
-            <div class="atravel-option" id="atravel-driving"   onclick="selectAppTravel('DRIVING', this)"><span class="atravel-emoji">🚗</span><span class="atravel-name">DRIVE</span></div>
-            <div class="atravel-option" id="atravel-walking"   onclick="selectAppTravel('WALKING', this)"><span class="atravel-emoji">🏃</span><span class="atravel-name">WALK / RUN</span></div>
+            <div class="atravel-option" id="atravel-driving" onclick="selectAppTravel('DRIVING', this)"><span class="atravel-emoji">🚗</span><span class="atravel-name">DRIVE</span></div>
+            <div class="atravel-option" id="atravel-walking" onclick="selectAppTravel('WALKING', this)"><span class="atravel-emoji">🏃</span><span class="atravel-name">WALK / RUN</span></div>
             <div class="atravel-option" id="atravel-bicycling" onclick="selectAppTravel('BICYCLING', this)"><span class="atravel-emoji">🚴</span><span class="atravel-name">CYCLE</span></div>
         </div>
         <button id="atravel-save" onclick="saveAppTravel()">SAVE</button>
