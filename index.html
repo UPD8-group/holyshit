@@ -726,7 +726,7 @@
     </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 let _selectedMode = null;
 
 function handleLaunch(e) {
@@ -805,3 +805,17 @@ document.querySelectorAll('.audience-card[role="button"]').forEach(card => {
 
 /* Hide scroll cue after first scroll */
 window.addEventListener('scroll', () => {
+    const cue = document.querySelector('.scroll-cue');
+    if (cue) cue.style.opacity = '0';
+}, { once: true });
+
+/* Register service worker */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () =>
+        navigator.serviceWorker.register('/sw.js').catch(() => {})
+    );
+}
+</script>
+
+</body>
+</html>
