@@ -164,12 +164,13 @@
         position: fixed;
         bottom: calc(var(--nav-h) + 80px); right: 16px;
         width: 52px; height: 52px; border-radius: 16px;
-        background: var(--cream); border: 1.5px solid var(--border);
-        box-shadow: var(--shadow-sm);
+        background: white;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         cursor: pointer; z-index: 2100;
         display: flex; flex-direction: column; align-items: center; justify-content: center;
         gap: 1px;
-        transition: transform 0.15s, bottom 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+        transition: transform 0.15s, bottom 0.35s cubic-bezier(0.175,0.885,0.32,1.275), background 0.2s, box-shadow 0.2s;
         touch-action: manipulation;
     }
     #mode-fab:active { transform: scale(0.92); }
@@ -179,13 +180,47 @@
         letter-spacing: 0.3px; color: var(--text-mid); text-transform: uppercase;
         line-height: 1;
     }
-    /* Highlight when active mode matches */
-    #mode-fab.active-drive  { background: var(--orange-lt); border-color: var(--orange); }
-    #mode-fab.active-drive  #mode-fab-label { color: var(--orange); }
-    #mode-fab.active-walk   { background: var(--green-lt);  border-color: var(--green); }
-    #mode-fab.active-walk   #mode-fab-label { color: var(--green); }
-    #mode-fab.active-cycle  { background: var(--water-lt);  border-color: var(--water); }
-    #mode-fab.active-cycle  #mode-fab-label { color: var(--water); }
+
+    /* Per-mode colour + pulse */
+    #mode-fab.active-drive {
+        background: var(--orange);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0 rgba(232,96,26,0.5);
+        animation: pulse-orange 2s ease-out infinite;
+    }
+    #mode-fab.active-drive #mode-fab-icon,
+    #mode-fab.active-drive #mode-fab-label { color: #fff; }
+
+    #mode-fab.active-walk {
+        background: var(--green);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0 rgba(42,157,78,0.5);
+        animation: pulse-green 2s ease-out infinite;
+    }
+    #mode-fab.active-walk #mode-fab-icon,
+    #mode-fab.active-walk #mode-fab-label { color: #fff; }
+
+    #mode-fab.active-cycle {
+        background: var(--water);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0 rgba(26,143,217,0.5);
+        animation: pulse-blue 2s ease-out infinite;
+    }
+    #mode-fab.active-cycle #mode-fab-icon,
+    #mode-fab.active-cycle #mode-fab-label { color: #fff; }
+
+    @keyframes pulse-orange {
+        0%   { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0   rgba(232,96,26,0.5); }
+        60%  { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 10px rgba(232,96,26,0); }
+        100% { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0   rgba(232,96,26,0); }
+    }
+    @keyframes pulse-green {
+        0%   { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0   rgba(42,157,78,0.5); }
+        60%  { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 10px rgba(42,157,78,0); }
+        100% { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0   rgba(42,157,78,0); }
+    }
+    @keyframes pulse-blue {
+        0%   { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0   rgba(26,143,217,0.5); }
+        60%  { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 10px rgba(26,143,217,0); }
+        100% { box-shadow: 0 2px 10px rgba(0,0,0,0.15), 0 0 0 0   rgba(26,143,217,0); }
+    }
 
     /* ── MAP TYPE FAB ── */
     #map-type-fab {
@@ -690,7 +725,6 @@ let navPolyline = null;
 let panorama = null;
 let geocoder, directionsService;
 let pooIcon = null, ffIcon = null;
-let _loadedStateFile = null;
 let mapModeIdx = 0;
 let travelSelected = null;
 
@@ -795,7 +829,7 @@ function initMap(center) {
 
     // Map events
     map.addListener('click',    () => { closeInfoWindow(); });
-    map.addListener('idle',     debounce(() => { loadVisibleStates(); renderVisibleMarkers(); }, 200));
+    map.addListener('idle',     debounce(renderVisibleMarkers, 200));
     map.addListener('dragstart', () => {
         userHasPanned = true;
         followMode = false;
@@ -804,8 +838,8 @@ function initMap(center) {
     // Start GPS blue dot
     startBlueDot();
 
-    // Load data for starting location
-    loadData(center.lat, center.lng);
+    // Load all Australian facility data
+    loadData();
 
     // Sync mode button
     syncModeButtons();
@@ -861,86 +895,34 @@ function applyMapMode() {
 }
 
 /* ═══════════════════════════════════════════════
-   STATE FILE ROUTING
+   DATA LOADING — single national file
+   toilets-au.json contains all of Australia.
+   Loaded once on startup, then renderVisibleMarkers
+   filters to whatever's in the viewport.
 ═══════════════════════════════════════════════ */
-function getStateFile(lat, lng) {
-    const states = [
-        ['act', -35.92, -35.12, 148.76, 149.40],
-        ['nsw', -37.51, -28.16, 140.99, 153.64],
-        ['vic', -39.16, -33.98, 140.96, 149.98],
-        ['qld', -29.18, -10.68, 137.99, 153.55],
-        ['sa',  -38.06, -25.99, 129.00, 141.00],
-        ['wa',  -35.13, -13.69, 112.92, 129.00],
-        ['tas', -43.65, -39.57, 143.81, 148.48],
-        ['nt',  -26.00, -10.97, 129.00, 138.00],
-    ];
-    for (const [s, minLat, maxLat, minLon, maxLon] of states) {
-        if (lat >= minLat && lat <= maxLat && lng >= minLon && lng <= maxLon) {
-            return 'toilets-' + s + '.json';
-        }
-    }
-    return 'toilets-nsw.json'; // fallback
-}
+let _dataLoaded = false;
+let _dataLoading = false;
 
-/* ═══════════════════════════════════════════════
-   DATA LOADING — multi-state accumulating cache
-   Each state file is fetched once and merged into
-   allLoos. Panning anywhere in Australia works.
-═══════════════════════════════════════════════ */
-const _loadedFiles = new Set(); // tracks which state files have been fetched
-
-async function loadData(lat, lng) {
-    const file = getStateFile(lat, lng);
-    if (_loadedFiles.has(file)) return; // already have this state
-    _loadedFiles.add(file);
-
+async function loadData() {
+    if (_dataLoaded || _dataLoading) return;
+    _dataLoading = true;
+    showToast('📡 Loading facilities…', 0, true);
     try {
-        const res = await fetch(file);
+        const res = await fetch('toilets-au.json');
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) throw new Error('Empty');
-        // Merge into the global pool — deduplicate by lat+lon string
-        const existing = new Set(allLoos.map(l => l.lat + ',' + l.lon));
-        const fresh = data.filter(l => !existing.has(l.lat + ',' + l.lon));
-        allLoos = allLoos.concat(fresh);
-        _loadedStateFile = file; // keep for compat
+        if (!Array.isArray(data) || data.length === 0) throw new Error('Empty data');
+        allLoos = data;
+        _dataLoaded = true;
         renderVisibleMarkers();
         hideToast();
         showToast('✅ ' + allLoos.length.toLocaleString() + ' facilities loaded');
     } catch(e) {
-        _loadedFiles.delete(file); // allow retry on next pan
+        _dataLoading = false; // allow retry
         hideToast();
-        console.warn('loadData failed:', file, e.message);
+        showToast('⚠️ Could not load facility data. Check connection and reload.', 6000);
+        console.error('loadData failed:', e);
     }
-}
-
-/* Called on every map idle — loads any state currently in view that hasn't been fetched yet */
-function loadVisibleStates() {
-    const bounds = map.getBounds();
-    if (!bounds) return;
-    const centre = map.getCenter();
-    const clat = centre.lat(), clng = centre.lng();
-
-    // Check the centre point first (fast path — the state they're looking at)
-    const centreFile = getStateFile(clat, clng);
-    if (!_loadedFiles.has(centreFile)) {
-        if (allLoos.length === 0) showToast('📡 Loading facilities…', 0, true);
-        loadData(clat, clng);
-    }
-
-    // Also check the four corners of the viewport — catches border-straddling views
-    const ne = bounds.getNorthEast();
-    const sw = bounds.getSouthWest();
-    const corners = [
-        { lat: ne.lat(), lng: ne.lng() },
-        { lat: sw.lat(), lng: sw.lng() },
-        { lat: ne.lat(), lng: sw.lng() },
-        { lat: sw.lat(), lng: ne.lng() },
-    ];
-    corners.forEach(c => {
-        const f = getStateFile(c.lat, c.lng);
-        if (!_loadedFiles.has(f)) loadData(c.lat, c.lng);
-    });
 }
 
 /* ═══════════════════════════════════════════════
@@ -1023,9 +1005,6 @@ function startBlueDot() {
                     // Don't set followMode — one-time pan only, then they're free to browse
                 }
 
-                // Load the correct state data
-                loadData(lat, lng);
-
             } else {
                 // Subsequent GPS updates — only move the dot, never auto-pan
                 blueDotMarker.setPosition({ lat, lng });
@@ -1036,8 +1015,6 @@ function startBlueDot() {
                 if (followMode) {
                     map.panTo({ lat, lng });
                 }
-                // Load this state if not yet fetched (user physically moved to new state)
-                loadData(lat, lng);
             }
         },
         err => {
