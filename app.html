@@ -139,6 +139,26 @@
     .nav-tab-poo { flex: 1.2; }
     .nav-icon-poo { font-size: 1.7rem !important; width: 38px !important; height: 38px !important; margin-top: -6px; }
 
+    /* Layer toggle tabs — each has its own accent colour when active */
+    .nav-tab.layer-active .nav-icon  { background: rgba(0,0,0,0.07); }
+    .nav-tab.layer-active .nav-label { color: var(--text); }
+    .nav-tab[data-layer="fastfood"].layer-active  .nav-icon  { background: rgba(232,96,26,0.12); }
+    .nav-tab[data-layer="fastfood"].layer-active  .nav-label { color: var(--orange); }
+    .nav-tab[data-layer="shopping"].layer-active  .nav-icon  { background: rgba(26,143,217,0.12); }
+    .nav-tab[data-layer="shopping"].layer-active  .nav-label { color: var(--water); }
+    .nav-tab[data-layer="clubs"].layer-active     .nav-icon  { background: rgba(42,157,78,0.12); }
+    .nav-tab[data-layer="clubs"].layer-active     .nav-label { color: var(--green); }
+    /* Loading spinner on tab icon */
+    .nav-tab.loading .nav-icon::after {
+        content: ''; position: absolute;
+        width: 8px; height: 8px; border-radius: 50%;
+        border: 1.5px solid rgba(100,80,60,0.2);
+        border-top-color: var(--orange);
+        animation: spin 0.7s linear infinite;
+        bottom: 0; right: 0;
+    }
+    .nav-icon { position: relative; }
+
     /* ── LOCATE FAB ── */
     #locate-fab {
         position: fixed;
@@ -302,8 +322,8 @@
     .iw-dist { font-size: 0.72rem; color: var(--orange); font-weight: 600; margin: 0 0 14px; }
     .iw-type { font-size: 0.7rem; color: var(--text-mid); margin: 0 0 10px; padding: 5px 8px; background: var(--card); border-radius: 6px; border: 1px solid var(--border); }
 
-    /* 3-button grid */
-    .iw-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    /* 2-button grid */
+    .iw-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .iw-btn {
         padding: 11px 4px 9px; border-radius: 10px; border: none;
         cursor: pointer; text-align: center;
@@ -317,7 +337,6 @@
 
     .iw-btn-nav    { background: var(--orange); color: #fff; box-shadow: 0 3px 0 var(--orange-dk); }
     .iw-btn-report { background: var(--card); color: var(--text-mid); border: 1.5px solid var(--border); }
-    .iw-btn-street { background: var(--water-lt); color: var(--water); border: 1.5px solid rgba(26,143,217,0.25); }
 
     /* ── IN-APP NAV BAR ── */
     #nav-bar {
@@ -418,38 +437,6 @@
         transition: opacity 0.3s;
     }
     #overlay.show { opacity: 1; pointer-events: auto; }
-
-    /* ── STREET VIEW ── */
-    #sv-modal {
-        position: fixed; inset: 0; z-index: 9000;
-        background: #000; display: none; flex-direction: column;
-    }
-    #sv-modal.open { display: flex; }
-    #sv-panorama   { flex: 1; width: 100%; }
-    #sv-toolbar {
-        position: absolute; top: 0; left: 0; right: 0;
-        padding: calc(env(safe-area-inset-top,0px) + 14px) 16px 32px;
-        display: flex; align-items: center; gap: 12px;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
-        z-index: 9100; pointer-events: none;
-    }
-    #sv-close {
-        pointer-events: auto;
-        background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
-        color: white; width: 38px; height: 38px;
-        border-radius: 50%; cursor: pointer; font-size: 1rem;
-        display: flex; align-items: center; justify-content: center;
-    }
-    #sv-title { flex: 1; color: white; font-family: var(--font-d); font-size: 1.1rem; letter-spacing: 0.5px; }
-    .sv-nav {
-        position: absolute; top: 50%; transform: translateY(-50%);
-        z-index: 9100; background: rgba(0,0,0,0.45);
-        border: 1px solid rgba(255,255,255,0.2);
-        color: white; font-size: 1.8rem;
-        width: 48px; height: 48px; border-radius: 50%;
-        cursor: pointer; display: flex; align-items: center; justify-content: center;
-    }
-    #sv-prev { left: 14px; } #sv-next { right: 14px; }
 
     /* ── TRAVEL MODE MODAL ── */
     #travel-overlay {
@@ -635,17 +622,6 @@
 <!-- Overlay (tapping closes sheets) -->
 <div id="overlay" onclick="closeAll()"></div>
 
-<!-- Street View -->
-<div id="sv-modal">
-    <div id="sv-panorama"></div>
-    <div id="sv-toolbar">
-        <button id="sv-close" onclick="closeStreetView()">✕</button>
-        <span id="sv-title">Street View</span>
-    </div>
-    <button class="sv-nav" id="sv-prev" onclick="svRotate(-35)">‹</button>
-    <button class="sv-nav" id="sv-next" onclick="svRotate(35)">›</button>
-</div>
-
 <!-- Travel mode modal -->
 <div id="travel-overlay" onclick="travelOverlayTap(event)">
     <div id="travel-modal">
@@ -661,11 +637,23 @@
     </div>
 </div>
 
-<!-- Bottom nav — single Near Me button -->
+<!-- Bottom nav — Near Me + layer toggles -->
 <nav id="bottom-nav">
     <button class="nav-tab nav-tab-poo" id="tab-near" onclick="findNearest()">
         <div class="nav-icon nav-icon-poo">💩</div>
         <div class="nav-label">Near Me</div>
+    </button>
+    <button class="nav-tab" id="tab-fastfood" data-layer="fastfood" onclick="toggleLayer('fastfood')">
+        <div class="nav-icon">🍔</div>
+        <div class="nav-label">Fast Food</div>
+    </button>
+    <button class="nav-tab" id="tab-shopping" data-layer="shopping" onclick="toggleLayer('shopping')">
+        <div class="nav-icon">🛍️</div>
+        <div class="nav-label">Shopping</div>
+    </button>
+    <button class="nav-tab" id="tab-clubs" data-layer="clubs" onclick="toggleLayer('clubs')">
+        <div class="nav-icon">🍺</div>
+        <div class="nav-label">Clubs</div>
     </button>
 </nav>
 
@@ -717,12 +705,11 @@ function hideToast() {
 /* ═══════════════════════════════════════════════
    STATE
 ═══════════════════════════════════════════════ */
-let map, allLoos = [], markers = [];
+let map, markers = [];
 let blueDotMarker = null, blueDotAccuracy = null, blueWatchId = null;
 let userHasPanned = false;
 let currentLoo = null, infoWindow = null;
 let navPolyline = null;
-let panorama = null;
 let geocoder, directionsService;
 let pooIcon = null, ffIcon = null;
 let mapModeIdx = 0;
@@ -895,12 +882,109 @@ function applyMapMode() {
 }
 
 /* ═══════════════════════════════════════════════
-   DATA LOADING — single national file
-   toilets-au.json contains all of Australia.
-   Loaded once on startup, then renderVisibleMarkers
-   filters to whatever's in the viewport.
+   DATA LAYERS
+   Each layer has its own JSON file, active flag,
+   and cached data. renderVisibleMarkers draws from
+   all active layers combined.
 ═══════════════════════════════════════════════ */
-let _dataLoaded = false;
+const LAYERS = {
+    toilets: {
+        file:   'toilets-au.json',
+        data:   [],
+        loaded: false,
+        active: true,   // always on — the core dataset
+    },
+    fastfood: {
+        file:   'chains-fastfood.json',
+        data:   [],
+        loaded: false,
+        active: false,
+    },
+    shopping: {
+        file:   'chains-shopping.json',
+        data:   [],
+        loaded: false,
+        active: false,
+    },
+    clubs: {
+        file:   'chains-clubs.json',
+        data:   [],
+        loaded: false,
+        active: false,
+    },
+};
+
+// allLoos is now a computed union of all active layers
+// kept for compatibility with findNearest / openInfoWindow etc
+let allLoos = [];
+
+function rebuildAllLoos() {
+    allLoos = Object.values(LAYERS)
+        .filter(l => l.active)
+        .flatMap(l => l.data);
+}
+
+async function loadLayer(key) {
+    const layer = LAYERS[key];
+    if (layer.loaded) return true;
+
+    const tab = document.getElementById('tab-' + key);
+    if (tab) tab.classList.add('loading');
+
+    try {
+        const res = await fetch(layer.file);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('Bad data');
+        layer.data   = data;
+        layer.loaded = true;
+        if (tab) tab.classList.remove('loading');
+        return true;
+    } catch(e) {
+        if (tab) tab.classList.remove('loading');
+        // File doesn't exist yet — silently ignore, show helpful message
+        showToast(`⚠️ ${key} data not available yet`, 3000);
+        console.warn('loadLayer failed:', key, e.message);
+        return false;
+    }
+}
+
+async function toggleLayer(key) {
+    const layer = LAYERS[key];
+    const tab   = document.getElementById('tab-' + key);
+
+    if (layer.active) {
+        // Turn off
+        layer.active = false;
+        tab?.classList.remove('layer-active');
+        rebuildAllLoos();
+        renderVisibleMarkers();
+        showToast(`${layerEmoji(key)} ${layerName(key)} hidden`);
+    } else {
+        // Turn on — load first if needed
+        if (!layer.loaded) {
+            const ok = await loadLayer(key);
+            if (!ok) return; // file missing, bail
+        }
+        layer.active = true;
+        tab?.classList.add('layer-active');
+        rebuildAllLoos();
+        renderVisibleMarkers();
+        showToast(`${layerEmoji(key)} ${layer.data.length.toLocaleString()} ${layerName(key)} shown`);
+    }
+}
+
+function layerEmoji(key) {
+    return { fastfood: '🍔', shopping: '🛍️', clubs: '🍺' }[key] || '📍';
+}
+function layerName(key) {
+    return { fastfood: 'Fast food', shopping: 'Shopping', clubs: 'Clubs' }[key] || key;
+}
+
+/* ═══════════════════════════════════════════════
+   CORE DATA LOADING — toilets only on startup
+═══════════════════════════════════════════════ */
+let _dataLoaded  = false;
 let _dataLoading = false;
 
 async function loadData() {
@@ -912,13 +996,15 @@ async function loadData() {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (!Array.isArray(data) || data.length === 0) throw new Error('Empty data');
-        allLoos = data;
+        LAYERS.toilets.data   = data;
+        LAYERS.toilets.loaded = true;
         _dataLoaded = true;
+        rebuildAllLoos();
         renderVisibleMarkers();
         hideToast();
-        showToast('✅ ' + allLoos.length.toLocaleString() + ' facilities loaded');
+        showToast('✅ ' + data.length.toLocaleString() + ' facilities loaded');
     } catch(e) {
-        _dataLoading = false; // allow retry
+        _dataLoading = false;
         hideToast();
         showToast('⚠️ Could not load facility data. Check connection and reload.', 6000);
         console.error('loadData failed:', e);
@@ -1111,10 +1197,6 @@ function openInfoWindow(loo) {
                 <span class="iw-btn-icon">${modeEmoji[mode] || '🏃'}</span>
                 <span class="iw-btn-label">NAVIGATE</span>
             </button>
-            <button class="iw-btn iw-btn-street" onclick="openStreetView()">
-                <span class="iw-btn-icon">👁</span>
-                <span class="iw-btn-label">STREET</span>
-            </button>
             <button class="iw-btn iw-btn-report" onclick="openReport()">
                 <span class="iw-btn-icon">🚨</span>
                 <span class="iw-btn-label">REPORT</span>
@@ -1200,35 +1282,6 @@ function cancelNavigation(panToUser = false) {
     currentLoo = null;
     if (panToUser && blueDotMarker) map.panTo(blueDotMarker.getPosition());
 }
-
-/* ═══════════════════════════════════════════════
-   STREET VIEW
-═══════════════════════════════════════════════ */
-function openStreetView() {
-    if (!currentLoo) return;
-    document.getElementById('sv-title').textContent = currentLoo.n;
-    document.getElementById('sv-modal').classList.add('open');
-
-    if (panorama) { panorama.setVisible(false); panorama = null; }
-    panorama = new google.maps.StreetViewPanorama(
-        document.getElementById('sv-panorama'), {
-            position: { lat: currentLoo.lat, lng: currentLoo.lon },
-            addressControl: false, motionTracking: false, motionTrackingControl: false,
-            enableCloseButton: false, linksControl: false, panControl: false,
-            zoomControl: false, fullscreenControl: false, showRoadLabels: false,
-        }
-    );
-}
-function closeStreetView() {
-    document.getElementById('sv-modal').classList.remove('open');
-    if (panorama) { panorama.setVisible(false); panorama = null; }
-}
-function svRotate(deg) {
-    if (!panorama) return;
-    const p = panorama.getPov();
-    panorama.setPov({ heading: (p.heading + deg + 360) % 360, pitch: p.pitch });
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeStreetView(); });
 
 /* ═══════════════════════════════════════════════
    REPORT
