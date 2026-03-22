@@ -1000,7 +1000,7 @@ function openInfoWindow(loo) {
     const isFastFood = loo.ff && !loo.golden;
     const emoji    = loo.golden ? '⭐' : isFastFood ? '🍔' : '💩';
     const typeTag  = isFastFood
-        ? '<div class="iw-type">🍔 Restaurant / fast food — has accessible toilet</div>'
+        ? '<div class="iw-type">🍔 Restaurant / fast food</div>'
         : '';
 
     const html = `
@@ -1213,7 +1213,6 @@ function saveTravel() {
     localStorage.setItem('hs_travel_mode', travelSelected);
     document.getElementById('travel-overlay').classList.remove('show');
     syncModeButtons();
-    refreshInfoWindowMode();
     const labels = { DRIVING: '🚗 Drive', WALKING: '🏃 Walk/Run', BICYCLING: '🚴 Cycle' };
     showToast(labels[travelSelected] + ' mode saved');
 }
@@ -1229,7 +1228,9 @@ function travelOverlayTap(e) {
 function setMode(mode) {
     localStorage.setItem('hs_travel_mode', mode);
     syncModeButtons();
-    refreshInfoWindowMode();
+    // Don't re-render the infowindow — openInfoWindow triggers map events that
+    // fight with the re-open on mobile. Navigate reads localStorage fresh at
+    // tap time so the correct mode is always used regardless of card emoji.
     const labels = { DRIVING: '🚗 Drive', WALKING: '🏃 Walk/Run', BICYCLING: '🚴 Cycle' };
     showToast(labels[mode] + ' mode set');
 }
@@ -1240,15 +1241,6 @@ function syncModeButtons() {
         document.getElementById(id)?.classList.remove('active');
     });
     document.getElementById(map2[mode])?.classList.add('active');
-}
-
-/* If the info window card is open, re-render it with the updated travel mode.
-   Direct DOM mutation into Google's infowindow wrapper is unreliable — some
-   browsers/versions re-render the content and wipe mutations. Re-opening is
-   instant and guaranteed correct. */
-function refreshInfoWindowMode() {
-    if (!infoWindow || !currentLoo) return;
-    openInfoWindow(currentLoo);
 }
 
 /* ═══════════════════════════════════════════════
