@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -61,6 +61,35 @@
         overscroll-behavior: none;
     }
 
+    /* ── APP BAR ── */
+    #app-bar {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 2400;
+        height: calc(52px + env(safe-area-inset-top, 0px));
+        padding-top: env(safe-area-inset-top, 0px);
+        background: rgba(255,255,255,0.96);
+        backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(0,0,0,0.08);
+        display: flex; align-items: center; padding-left: 16px; padding-right: 16px;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+    }
+    .app-bar-logo {
+        display: flex; align-items: center; gap: 8px;
+        font-family: var(--font-d); font-weight: 900;
+        font-size: 1.2rem; color: var(--text); letter-spacing: 0.02em;
+        text-decoration: none;
+    }
+    .app-bar-logo img {
+        height: 26px; width: auto;
+    }
+    .app-bar-logo-fallback {
+        display: none;
+        font-family: var(--font-d); font-weight: 900; font-style: italic;
+        font-size: 1.2rem; color: var(--text);
+    }
+    /* Push map down below the app bar */
+    #map {
+        top: calc(52px + env(safe-area-inset-top, 0px)) !important;
+    }
     /* ── MAP ── */
     #map {
         position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -115,7 +144,7 @@
     /* ── LOCATE FAB ── */
     #locate-fab {
         position: fixed;
-        bottom: calc(var(--nav-h) + 80px); right: 16px;
+        bottom: calc(var(--nav-h) + 144px); right: 16px;
         width: 52px; height: 52px; border-radius: 50%;
         background: var(--water); border: none;
         box-shadow: 0 4px 14px rgba(26,143,217,0.45);
@@ -132,6 +161,34 @@
         100% { box-shadow: 0 0 0 0   rgba(26,143,217,0); }
     }
 
+    /* ── MODE FAB ── */
+    #mode-fab {
+        position: fixed;
+        bottom: calc(var(--nav-h) + 80px); right: 16px;
+        width: 52px; height: 52px; border-radius: 16px;
+        background: var(--cream); border: 1.5px solid var(--border);
+        box-shadow: var(--shadow-sm);
+        cursor: pointer; z-index: 2100;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 1px;
+        transition: transform 0.15s, bottom 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+        touch-action: manipulation;
+    }
+    #mode-fab:active { transform: scale(0.92); }
+    #mode-fab-icon  { font-size: 1.3rem; line-height: 1; }
+    #mode-fab-label {
+        font-family: var(--font-b); font-size: 0.5rem; font-weight: 700;
+        letter-spacing: 0.3px; color: var(--text-mid); text-transform: uppercase;
+        line-height: 1;
+    }
+    /* Highlight when active mode matches */
+    #mode-fab.active-drive  { background: var(--orange-lt); border-color: var(--orange); }
+    #mode-fab.active-drive  #mode-fab-label { color: var(--orange); }
+    #mode-fab.active-walk   { background: var(--green-lt);  border-color: var(--green); }
+    #mode-fab.active-walk   #mode-fab-label { color: var(--green); }
+    #mode-fab.active-cycle  { background: var(--water-lt);  border-color: var(--water); }
+    #mode-fab.active-cycle  #mode-fab-label { color: var(--water); }
+
     /* ── MAP TYPE FAB ── */
     #map-type-fab {
         position: fixed;
@@ -146,14 +203,17 @@
     }
     #map-type-fab:active { transform: scale(0.92); }
 
-    /* When nav bar is active, push FABs up above it — matches nav-bar slide height (~72px) */
+    /* When nav bar is active, push all right FABs up above it */
     body.nav-active #map-type-fab { bottom: calc(var(--nav-h) + 80px); }
-    body.nav-active #locate-fab   { bottom: calc(var(--nav-h) + 144px); }
+    body.nav-active #mode-fab     { bottom: calc(var(--nav-h) + 144px); }
+    body.nav-active #locate-fab   { bottom: calc(var(--nav-h) + 208px); }
+
+    /* Toast clears app bar */
 
     /* ── TOAST ── */
     #msg-toast {
         position: fixed;
-        top: calc(env(safe-area-inset-top, 0px) + 16px);
+        top: calc(env(safe-area-inset-top, 0px) + 60px);
         left: 50%; transform: translateX(-50%) translateY(-8px);
         z-index: 3000;
         background: rgba(26,16,8,0.88);
@@ -482,9 +542,22 @@
 <!-- Map -->
 <div id="map"></div>
 
-<!-- FABs -->
+<!-- App bar — branding top left -->
+<div id="app-bar">
+    <a href="/" class="app-bar-logo" title="HolyShit.app — home">
+        <img src="logo.png" alt="HolyShit.app"
+             onerror="this.style.display='none'; document.querySelector('.app-bar-logo-fallback').style.display='inline';">
+        <span class="app-bar-logo-fallback">HolyShit.app 💩</span>
+    </a>
+</div>
+
+<!-- FABs — right side stack (bottom to top): map-type, mode, locate -->
 <button id="map-type-fab" onclick="cycleMapMode()" title="Change map type">
     <span id="map-type-icon">🛰️</span>
+</button>
+<button id="mode-fab" onclick="cycleMode()" title="Change travel mode">
+    <span id="mode-fab-icon">🏃</span>
+    <span id="mode-fab-label">Walk</span>
 </button>
 <button id="locate-fab" onclick="centreOnUser()" title="My location">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -557,12 +630,12 @@
     </div>
 </div>
 
-<!-- Bottom nav -->
+<!-- Bottom nav — single Near Me button -->
 <nav id="bottom-nav">
-    <button class="nav-tab" id="tab-drive"  onclick="setMode('DRIVING')">   <div class="nav-icon">🚗</div><div class="nav-label">Drive</div></button>
-    <button class="nav-tab" id="tab-walk"   onclick="setMode('WALKING')">   <div class="nav-icon">🏃</div><div class="nav-label">Walk/Run</div></button>
-    <button class="nav-tab" id="tab-cycle"  onclick="setMode('BICYCLING')"> <div class="nav-icon">🚴</div><div class="nav-label">Cycle</div></button>
-    <button class="nav-tab nav-tab-poo" id="tab-near" onclick="findNearest()"><div class="nav-icon nav-icon-poo">💩</div><div class="nav-label">Near Me</div></button>
+    <button class="nav-tab nav-tab-poo" id="tab-near" onclick="findNearest()">
+        <div class="nav-icon nav-icon-poo">💩</div>
+        <div class="nav-label">Near Me</div>
+    </button>
 </nav>
 
 <!-- PWA banners -->
@@ -815,27 +888,47 @@ function getStateFile(lat, lng) {
 
 /* ═══════════════════════════════════════════════
    DATA LOADING
+   Loads from a single national file (toilets-au.json).
+   Falls back to state files if the national file 404s —
+   useful once per-state files are deployed.
 ═══════════════════════════════════════════════ */
 async function loadData(lat, lng) {
-    const file = getStateFile(lat, lng);
-    if (file === _loadedStateFile) return; // already loaded
-    _loadedStateFile = file;
+    // Always try the national file first — one file, whole country
+    const nationalFile = 'toilets-au.json';
+    const stateFile    = getStateFile(lat, lng);
+
+    // If we already have data loaded, just re-render — no re-fetch needed
+    if (_loadedStateFile && allLoos.length > 0) {
+        renderVisibleMarkers();
+        return;
+    }
 
     showToast('📡 Loading facilities…', 0, true);
-    try {
-        const res = await fetch(file);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        allLoos = await res.json();
-        renderVisibleMarkers();
-        hideToast();
-        showToast('✅ ' + allLoos.length.toLocaleString() + ' facilities loaded');
-    } catch(e) {
-        allLoos = [];
-        _loadedStateFile = null; // allow retry
-        hideToast();
-        showToast('⚠️ Could not load facility data. Check connection and reload.', 6000);
-        console.error('loadData failed:', e);
+
+    // Try national file first, fall back to state file
+    for (const file of [nationalFile, stateFile]) {
+        try {
+            const res = await fetch(file);
+            if (!res.ok) continue; // try next
+            const data = await res.json();
+            if (!Array.isArray(data) || data.length === 0) continue;
+            allLoos = data;
+            _loadedStateFile = file;
+            renderVisibleMarkers();
+            hideToast();
+            showToast('✅ ' + allLoos.length.toLocaleString() + ' facilities loaded');
+            return;
+        } catch(e) {
+            continue; // try next file
+        }
     }
+
+    // Both failed
+    allLoos = [];
+    _loadedStateFile = null;
+    hideToast();
+    showToast('⚠️ Could not load facility data. Check connection and reload.', 6000);
+    console.error('loadData: all files failed for', lat, lng);
 }
 
 /* ═══════════════════════════════════════════════
@@ -931,10 +1024,7 @@ function startBlueDot() {
                 if (followMode) {
                     map.panTo({ lat, lng });
                 }
-
-                // Cross-state detection
-                const newFile = getStateFile(lat, lng);
-                if (newFile !== _loadedStateFile) loadData(lat, lng);
+                // No cross-state reload needed — national file covers all of Australia
             }
         },
         err => {
@@ -1232,23 +1322,43 @@ function travelOverlayTap(e) {
 /* ═══════════════════════════════════════════════
    BOTTOM NAV — MODE BUTTONS
 ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   TRAVEL MODE — single cycle FAB
+═══════════════════════════════════════════════ */
+const MODES = ['WALKING', 'DRIVING', 'BICYCLING'];
+const MODE_META = {
+    WALKING:   { emoji: '🏃', label: 'Walk', cls: 'active-walk'  },
+    DRIVING:   { emoji: '🚗', label: 'Drive', cls: 'active-drive' },
+    BICYCLING: { emoji: '🚴', label: 'Cycle', cls: 'active-cycle' },
+};
+
+function cycleMode() {
+    const current = localStorage.getItem('hs_travel_mode') || 'WALKING';
+    const next    = MODES[(MODES.indexOf(current) + 1) % MODES.length];
+    setMode(next);
+}
+
 function setMode(mode) {
     localStorage.setItem('hs_travel_mode', mode);
     syncModeButtons();
-    const labels = { DRIVING: '🚗 Drive', WALKING: '🏃 Walk/Run', BICYCLING: '🚴 Cycle' };
-    showToast(labels[mode] + ' mode set');
-    // If navigation is already active, re-route immediately with the new mode
+    showToast(MODE_META[mode].emoji + ' ' + MODE_META[mode].label + ' mode set');
+    // Re-route immediately if navigation is already active
     if (document.getElementById('nav-bar').classList.contains('active') && currentLoo) {
         startNavigation();
     }
 }
+
 function syncModeButtons() {
     const mode = localStorage.getItem('hs_travel_mode') || 'WALKING';
-    const map2 = { DRIVING: 'tab-drive', WALKING: 'tab-walk', BICYCLING: 'tab-cycle' };
-    ['tab-drive','tab-walk','tab-cycle','tab-near'].forEach(id => {
-        document.getElementById(id)?.classList.remove('active');
-    });
-    document.getElementById(map2[mode])?.classList.add('active');
+    const meta = MODE_META[mode];
+    const fab  = document.getElementById('mode-fab');
+    if (!fab) return;
+    // Update icon + label
+    document.getElementById('mode-fab-icon').textContent  = meta.emoji;
+    document.getElementById('mode-fab-label').textContent = meta.label;
+    // Swap colour class
+    fab.classList.remove('active-drive', 'active-walk', 'active-cycle');
+    fab.classList.add(meta.cls);
 }
 
 /* ═══════════════════════════════════════════════
