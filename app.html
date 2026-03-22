@@ -884,47 +884,38 @@ function getStateFile(lat, lng) {
 
 /* ═══════════════════════════════════════════════
    DATA LOADING
-   Loads from a single national file (toilets-au.json).
-   Falls back to state files if the national file 404s —
-   useful once per-state files are deployed.
+   All 8 state files exist. Load the correct one
+   for the user's location. Cross-state moves are
+   detected and trigger a reload automatically.
 ═══════════════════════════════════════════════ */
 async function loadData(lat, lng) {
-    // Always try the national file first — one file, whole country
-    const nationalFile = 'toilets-au.json';
-    const stateFile    = getStateFile(lat, lng);
+    const file = getStateFile(lat, lng);
 
-    // If we already have data loaded, just re-render — no re-fetch needed
-    if (_loadedStateFile && allLoos.length > 0) {
+    // Already have this state loaded — just re-render
+    if (file === _loadedStateFile && allLoos.length > 0) {
         renderVisibleMarkers();
         return;
     }
 
+    _loadedStateFile = file;
     showToast('📡 Loading facilities…', 0, true);
 
-    // Try national file first, fall back to state file
-    for (const file of [nationalFile, stateFile]) {
-        try {
-            const res = await fetch(file);
-            if (!res.ok) continue; // try next
-            const data = await res.json();
-            if (!Array.isArray(data) || data.length === 0) continue;
-            allLoos = data;
-            _loadedStateFile = file;
-            renderVisibleMarkers();
-            hideToast();
-            showToast('✅ ' + allLoos.length.toLocaleString() + ' facilities loaded');
-            return;
-        } catch(e) {
-            continue; // try next file
-        }
+    try {
+        const res = await fetch(file);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('Bad data');
+        allLoos = data;
+        renderVisibleMarkers();
+        hideToast();
+        showToast('✅ ' + allLoos.length.toLocaleString() + ' facilities loaded');
+    } catch(e) {
+        allLoos = [];
+        _loadedStateFile = null; // allow retry
+        hideToast();
+        showToast('⚠️ Could not load facility data. Check connection and reload.', 6000);
+        console.error('loadData failed:', file, e);
     }
-
-    // Both failed
-    allLoos = [];
-    _loadedStateFile = null;
-    hideToast();
-    showToast('⚠️ Could not load facility data. Check connection and reload.', 6000);
-    console.error('loadData: all files failed for', lat, lng);
 }
 
 /* ═══════════════════════════════════════════════
@@ -1020,7 +1011,9 @@ function startBlueDot() {
                 if (followMode) {
                     map.panTo({ lat, lng });
                 }
-                // No cross-state reload needed — national file covers all of Australia
+                // Cross-state detection — reload when user moves into a different state
+                const newFile = getStateFile(lat, lng);
+                if (newFile !== _loadedStateFile) loadData(lat, lng);
             }
         },
         err => {
